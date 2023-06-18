@@ -9,6 +9,7 @@ import { Skills } from '@/components/Skills'
 
 import { skills } from '@/mock/skills'
 import { SkillProps } from '@/components/Skills/CardSkill'
+import { MyProjects } from '@/components/MyProjects'
 
 export default function Home() {
   const [skillsList, setSkillsList] = useState<SkillProps[]>([])
@@ -58,6 +59,7 @@ export default function Home() {
         skills={skillsList}
         hiddenNextButton={hiddenNextButton}
       />
+      <MyProjects />
     </Flex>
   )
 }
