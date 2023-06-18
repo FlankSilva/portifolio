@@ -33,6 +33,13 @@ export default function Home() {
     }
   }
 
+  const scrollToDiv = (id: string) => {
+    const element = document.getElementById(id)
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' })
+    }
+  }
+
   return (
     <Flex
       w="100vw"
@@ -43,7 +50,7 @@ export default function Home() {
     >
       <Presentation>
         <Header />
-        <Menu />
+        <Menu scrollToDiv={scrollToDiv} />
       </Presentation>
       <About />
       <Skills

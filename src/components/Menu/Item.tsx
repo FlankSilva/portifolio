@@ -2,12 +2,14 @@ import { useState } from 'react'
 
 import { Text, Button } from '@chakra-ui/react'
 import Skeleton from 'react-loading-skeleton'
+import { MenuProps } from '.'
 
-interface ItemProps {
+interface ItemProps extends MenuProps {
   title: string
+  id: string
 }
 
-export const Item = ({ title }: ItemProps) => {
+export const Item = ({ title, id, scrollToDiv }: ItemProps) => {
   const [isHovered, setIsHovered] = useState(false)
 
   const handleHover = (status: boolean) => {
@@ -22,6 +24,7 @@ export const Item = ({ title }: ItemProps) => {
       display="flex"
       flexDir="column"
       outline="none"
+      onClick={() => scrollToDiv(id)}
       _hover={{
         bg: 'transparent',
       }}

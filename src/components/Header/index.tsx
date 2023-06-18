@@ -29,6 +29,7 @@ export const Header = () => {
       justifyContent="space-between"
       align="center"
       paddingTop={isTelaGrande ? '3.5rem' : '1.25rem'}
+      id="home"
     >
       <Flex gap={2} align="center">
         {listSocialMidia.map((item, index) => (
