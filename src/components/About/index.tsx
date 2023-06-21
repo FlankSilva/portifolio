@@ -20,7 +20,13 @@ export const About = () => {
       id="about"
     >
       <Main>
-        <Flex width="100%" gap="40px">
+        <Flex
+          width={['82%', '82%', '82%', '82%', '100%']}
+          gap="40px"
+          flexDir={['column', 'column', 'column', 'column', 'row']}
+          marginLeft={'auto'}
+          marginRight={'auto'}
+        >
           <Flex flexDirection="column" flex={1}>
             <Text
               color="#c4343c"
@@ -30,11 +36,18 @@ export const About = () => {
             >
               CITAÇÂO
             </Text>
-            <Text fontSize="14px" position="relative">
+            <Text fontSize="14px" position="relative" display={'flex'}>
               <Image
                 src={quoteLeft}
                 alt=""
-                style={{ position: 'absolute', left: '-40px', top: '-10px' }}
+                width={28}
+                height={23}
+                style={{
+                  width: '28px',
+                  height: '23px',
+                  position: 'relative',
+                  left: '-7px',
+                }}
               />
               A programação web é como um universo infinito de possibilidades,
               onde cada linha de código pode transformar ideias em realidade,
@@ -43,7 +56,13 @@ export const About = () => {
               <Image
                 src={quoteRight}
                 alt=""
-                style={{ position: 'absolute', left: '375px', top: '50px' }}
+                width={28}
+                height={23}
+                style={{
+                  width: '28px',
+                  height: '23px',
+                  marginTop: 'auto',
+                }}
               />
             </Text>
             <Text
@@ -61,7 +80,7 @@ export const About = () => {
             display="flex"
             alignItems="center"
             justifyContent="center"
-            width="240px"
+            width={['100%', '100%', '100%', '100%', '240px']}
             height="240px"
           >
             <Image

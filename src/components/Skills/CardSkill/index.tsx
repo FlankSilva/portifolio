@@ -8,8 +8,8 @@ export interface SkillProps {
 
 export const CardSkill = ({ title, description, icon }: SkillProps) => {
   return (
-    <Flex gap="20px" align="center">
-      <Flex flexDir="column" width="350px">
+    <Flex gap="20px" align="center" justify={'center'}>
+      <Flex flexDir="column" width="100%" maxW={['70%', '70%', '65%', '350px']}>
         <Text
           as="h3"
           color="rgb(0, 173, 111)"

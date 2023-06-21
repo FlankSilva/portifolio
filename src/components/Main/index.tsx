@@ -13,8 +13,8 @@ export const Main = ({ children }: BoxProps) => {
       height="100%"
       pos="relative"
       flexDir="column"
-      paddingLeft="10px"
-      paddingRight="10px"
+      paddingLeft={['0', '0', '0', '10px']}
+      paddingRight={['0', '0', '0', '10px']}
     >
       {children}
     </Flex>

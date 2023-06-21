@@ -12,7 +12,11 @@ import {
   YarnIcon,
 } from '@/components/Icons/SoftSkills'
 
-export const skills = [
+interface SkillsProps {
+  size: '110' | '70'
+}
+
+export const skills = ({ size }: SkillsProps) => [
   {
     title: 'HTML',
     description: `
@@ -22,7 +26,7 @@ export const skills = [
       tornar as páginas interativas usando CSS e JavaScript. Em resumo, o 
       HTML é a base para exibir conteúdo na web.
     `,
-    icon: <HTMLIcon size="100" />,
+    icon: <HTMLIcon size={size} />,
   },
   {
     title: 'CSS',
@@ -33,7 +37,7 @@ export const skills = [
       tornar as páginas interativas usando CSS e JavaScript. Em resumo, o 
       HTML é a base para exibir conteúdo na web.
     `,
-    icon: <CssIcon size="110" />,
+    icon: <CssIcon size={size} />,
   },
   {
     title: 'JAVASCRIPT',
@@ -44,7 +48,7 @@ export const skills = [
       tornar as páginas interativas usando CSS e JavaScript. Em resumo, o 
       HTML é a base para exibir conteúdo na web.
     `,
-    icon: <JavaScriptIcon size="110" />,
+    icon: <JavaScriptIcon size={size} />,
   },
   {
     title: 'SASS',
@@ -55,7 +59,7 @@ export const skills = [
       tornar as páginas interativas usando CSS e JavaScript. Em resumo, o 
       HTML é a base para exibir conteúdo na web.
     `,
-    icon: <SassIcon size="110" />,
+    icon: <SassIcon size={size} />,
   },
   {
     title: 'NODE',
@@ -66,7 +70,7 @@ export const skills = [
       tornar as páginas interativas usando CSS e JavaScript. Em resumo, o 
       HTML é a base para exibir conteúdo na web.
     `,
-    icon: <NodeIcon size="110" />,
+    icon: <NodeIcon size={size} />,
   },
   {
     title: 'REACT',
@@ -77,7 +81,7 @@ export const skills = [
       tornar as páginas interativas usando CSS e JavaScript. Em resumo, o 
       HTML é a base para exibir conteúdo na web.
     `,
-    icon: <ReactIcon size="110" />,
+    icon: <ReactIcon size={size} />,
   },
   {
     title: 'NEXTJS',
@@ -88,7 +92,7 @@ export const skills = [
       tornar as páginas interativas usando CSS e JavaScript. Em resumo, o 
       HTML é a base para exibir conteúdo na web.
     `,
-    icon: <NextjsIcon size="110" />,
+    icon: <NextjsIcon size={size} />,
   },
   {
     title: 'TYPESCRIPT',
@@ -99,7 +103,7 @@ export const skills = [
       tornar as páginas interativas usando CSS e JavaScript. Em resumo, o 
       HTML é a base para exibir conteúdo na web.
     `,
-    icon: <TypeScriptIcon size="110" />,
+    icon: <TypeScriptIcon size={size} />,
   },
   {
     title: 'YARN',
@@ -110,7 +114,7 @@ export const skills = [
       tornar as páginas interativas usando CSS e JavaScript. Em resumo, o 
       HTML é a base para exibir conteúdo na web.
     `,
-    icon: <YarnIcon size="110" />,
+    icon: <YarnIcon size={size} />,
   },
   {
     title: 'DOCKER',
@@ -121,7 +125,7 @@ export const skills = [
       tornar as páginas interativas usando CSS e JavaScript. Em resumo, o 
       HTML é a base para exibir conteúdo na web.
     `,
-    icon: <DockerIcon size="110" />,
+    icon: <DockerIcon size={size} />,
   },
   {
     title: 'POSTGRES',
@@ -132,6 +136,6 @@ export const skills = [
       tornar as páginas interativas usando CSS e JavaScript. Em resumo, o 
       HTML é a base para exibir conteúdo na web.
     `,
-    icon: <PostgresIcon size="110" />,
+    icon: <PostgresIcon size={size} />,
   },
 ]

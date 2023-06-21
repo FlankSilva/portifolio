@@ -1,11 +1,17 @@
-import { Box, Flex } from '@chakra-ui/react'
+import { Box, Flex, useMediaQuery } from '@chakra-ui/react'
 
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 
 export const CardSkeleton = () => {
+  const [isLargerThan1092] = useMediaQuery('(min-width: 1092px)', {
+    ssr: true,
+    fallback: false,
+  })
+
   return (
     <Flex
+      display={isLargerThan1092 ? 'flex' : 'none'}
       width="200px"
       flexDirection="column"
       align="center"
@@ -13,7 +19,7 @@ export const CardSkeleton = () => {
       borderRadius="4px"
       position="absolute"
       background="#17171a"
-      left="941px"
+      left="80%"
       top="77px"
     >
       <Skeleton

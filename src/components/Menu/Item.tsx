@@ -38,7 +38,7 @@ export const Item = ({ title, id, scrollToDiv }: ItemProps) => {
         justifyContent="center"
         height="50px"
         position="relative"
-        fontSize="1.5rem"
+        fontSize={['1.3rem', '1.3rem', '1.3rem', '1.5rem']}
         onMouseMove={() => handleHover(true)}
         onMouseLeave={() => handleHover(false)}
       >

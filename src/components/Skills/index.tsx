@@ -1,7 +1,8 @@
-import { Box, Button, Flex, Text } from '@chakra-ui/react'
+import { Box, Button, Flex, useMediaQuery } from '@chakra-ui/react'
 import { Main } from '../Main'
 import { CardSkill, SkillProps } from './CardSkill'
 import React from 'react'
+import { Title } from '../Title'
 
 export interface SkillsProps {
   skills: SkillProps[]
@@ -14,24 +15,18 @@ export const Skills = ({
   handleNextSkills,
   hiddenNextButton,
 }: SkillsProps) => {
+  const [isLargerThan991] = useMediaQuery('(min-width: 991px)', {
+    ssr: true,
+    fallback: false, // return false on the server, and re-evaluate on the client side
+  })
+
   return (
     <Flex w="100%" justify="center" bg="gray.900" position="relative">
       <Main>
-        <Text
-          as="h1"
-          fontSize="3.75rem"
-          color="#fff"
-          fontWeight="bold"
-          textAlign="center"
-          marginTop="4rem"
-          marginBottom="2rem"
-          id="skills"
-        >
-          Minhas Skills
-        </Text>
+        <Title title="Minhas Skills" />
         <Flex
           flexWrap="wrap"
-          justifyContent="space-between"
+          justifyContent={['center', 'center', 'center', 'space-between']}
           gap="1rem"
           marginBottom="40px"
         >
@@ -51,7 +46,7 @@ export const Skills = ({
             height="120px"
             position="absolute"
             width="100%"
-            bottom="30px"
+            bottom={isLargerThan991 ? '30px' : '9px'}
           >
             <Box
               width="100%"
@@ -72,6 +67,9 @@ export const Skills = ({
                 color="#fff"
                 onClick={handleNextSkills}
                 padding="1.5rem 4rem"
+                _hover={{
+                  bg: 'rgb(0, 173, 111)',
+                }}
               >
                 Mais
               </Button>

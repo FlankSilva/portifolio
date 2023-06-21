@@ -1,28 +1,19 @@
 import Link from 'next/link'
 import { Box, Flex, Text, useMediaQuery } from '@chakra-ui/react'
 
-import { YoutubeIcon } from '../Icons/YoutubeIcon'
-import { LinkedInIcon } from '../Icons/LinkedInIcon'
-import { GitHubIcon } from '../Icons/GitHubIcon'
 import { WhatsappIcon } from '../Icons/WhatsappIcon'
-
-const listSocialMidia = [
-  {
-    icon: <YoutubeIcon size="25" />,
-    link: 'https://www.youtube.com/@devjunior6354',
-  },
-  {
-    icon: <LinkedInIcon size="25" />,
-    link: 'https://www.linkedin.com/in/flank-silva-0a3a5317a/',
-  },
-  {
-    icon: <GitHubIcon size="25" fill="#000" />,
-    link: 'https://github.com/FlankSilva',
-  },
-]
+import { listSocialMidia } from '@/mock/socialMidia'
 
 export const Header = () => {
-  const [isTelaGrande] = useMediaQuery('(min-height: 680px)')
+  const [isTelaGrande] = useMediaQuery('(min-height: 680px)', {
+    ssr: true,
+    fallback: false, // return false on the server, and re-evaluate on the client side
+  })
+
+  const [isLargerThan800] = useMediaQuery('(min-width: 1092px)', {
+    ssr: true,
+    fallback: false, // return false on the server, and re-evaluate on the client side
+  })
 
   return (
     <Flex
@@ -30,6 +21,7 @@ export const Header = () => {
       align="center"
       paddingTop={isTelaGrande ? '3.5rem' : '1.25rem'}
       id="home"
+      display={isLargerThan800 ? 'flex' : 'none'}
     >
       <Flex gap={2} align="center">
         {listSocialMidia.map((item, index) => (
