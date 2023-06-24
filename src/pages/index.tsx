@@ -12,6 +12,8 @@ import { SkillProps } from '@/components/Skills/CardSkill'
 import { MyProjects } from '@/components/MyProjects'
 import { HeaderMobile } from '@/components/HeaderMobile'
 import { PresentationMobile } from '@/components/Presentation/PresentationMobile'
+import { Contact } from '@/components/Contact'
+import { Drawer } from '@/components/Drawer'
 
 export default function Home() {
   const [skillsList, setSkillsList] = useState<SkillProps[]>([])
@@ -19,12 +21,12 @@ export default function Home() {
 
   const [isLargerThan1092] = useMediaQuery('(min-width: 1092px)', {
     ssr: true,
-    fallback: false, // return false on the server, and re-evaluate on the client side
+    fallback: false,
   })
 
   const [isLargerThan991] = useMediaQuery('(min-width: 991px)', {
     ssr: true,
-    fallback: false, // return false on the server, and re-evaluate on the client side
+    fallback: false,
   })
 
   const sizeIcon = isLargerThan1092 ? '110' : '70'
@@ -85,6 +87,9 @@ export default function Home() {
         hiddenNextButton={hiddenNextButton}
       />
       <MyProjects />
+      <Contact />
+
+      <Drawer />
     </Flex>
   )
 }

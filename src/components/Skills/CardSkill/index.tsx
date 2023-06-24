@@ -13,7 +13,7 @@ export const CardSkill = ({ title, description, icon }: SkillProps) => {
         <Text
           as="h3"
           color="rgb(0, 173, 111)"
-          fontSize="1.7rem"
+          fontSize={['1.3rem', '1.3rem', '1.5rem', '1.7rem']}
           fontWeight="bold"
           marginBottom="0.5rem"
         >

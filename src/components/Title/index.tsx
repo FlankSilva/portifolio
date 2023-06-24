@@ -9,7 +9,7 @@ export const Title = ({ title, mt = '4rem' }: TitleProps) => {
   return (
     <Text
       as="h1"
-      fontSize="3.75rem"
+      fontSize={['2.3rem', '2.3rem', '2.3rem', '3.75rem']}
       color="#fff"
       fontWeight="bold"
       textAlign="center"
