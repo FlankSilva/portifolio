@@ -61,7 +61,7 @@ export const Header = () => {
           TELEFONE DE <br /> CONTATO
         </Text>
         <Text fontSize="2.3rem" marginLeft="12px">
-          19 992360973
+          19 99236-0973
         </Text>
       </Flex>
     </Flex>

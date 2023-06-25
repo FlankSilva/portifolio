@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Flex, useMediaQuery } from '@chakra-ui/react'
+import { NextSeo } from 'next-seo'
 
 import { Presentation } from '@/components/Presentation'
 import { Header } from '@/components/Header'
@@ -66,32 +67,38 @@ export default function Home() {
   }
 
   return (
-    <Flex
-      w="100vw"
-      flexDir="column"
-      align="center"
-      justify="center"
-      bg="rgba(33, 140, 116,0.1)"
-      position={'relative'}
-    >
-      <Presentation>
-        <Header />
-        <HeaderMobile scrollToDiv={scrollToDiv} />
-        <Menu scrollToDiv={scrollToDiv} />
-
-        <PresentationMobile />
-      </Presentation>
-      <About />
-      <Skills
-        handleNextSkills={handleNextSkills}
-        skills={skillsList}
-        hiddenNextButton={hiddenNextButton}
+    <>
+      <NextSeo
+        title="Flank Silva - Desenvolvedor Web"
+        description="Desenvolvedor de sites Web Pleno especialista em Aplicações Web com Javascript."
       />
-      <MyProjects />
-      <Contact />
+      <Flex
+        w="100vw"
+        flexDir="column"
+        align="center"
+        justify="center"
+        bg="rgba(33, 140, 116,0.1)"
+        position={'relative'}
+      >
+        <Presentation>
+          <Header />
+          <HeaderMobile scrollToDiv={scrollToDiv} />
+          <Menu scrollToDiv={scrollToDiv} />
 
-      <Drawer scrollToDiv={scrollToDiv} />
-      <Footer scrollToDiv={scrollToDiv} />
-    </Flex>
+          <PresentationMobile />
+        </Presentation>
+        <About />
+        <Skills
+          handleNextSkills={handleNextSkills}
+          skills={skillsList}
+          hiddenNextButton={hiddenNextButton}
+        />
+        <MyProjects />
+        <Contact />
+
+        <Drawer scrollToDiv={scrollToDiv} />
+        <Footer scrollToDiv={scrollToDiv} />
+      </Flex>
+    </>
   )
 }
