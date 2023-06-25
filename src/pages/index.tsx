@@ -14,6 +14,7 @@ import { HeaderMobile } from '@/components/HeaderMobile'
 import { PresentationMobile } from '@/components/Presentation/PresentationMobile'
 import { Contact } from '@/components/Contact'
 import { Drawer } from '@/components/Drawer'
+import { Footer } from '@/components/Footer'
 
 export default function Home() {
   const [skillsList, setSkillsList] = useState<SkillProps[]>([])
@@ -89,7 +90,8 @@ export default function Home() {
       <MyProjects />
       <Contact />
 
-      <Drawer />
+      <Drawer scrollToDiv={scrollToDiv} />
+      <Footer scrollToDiv={scrollToDiv} />
     </Flex>
   )
 }

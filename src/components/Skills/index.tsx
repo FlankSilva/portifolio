@@ -21,7 +21,13 @@ export const Skills = ({
   })
 
   return (
-    <Flex w="100%" justify="center" bg="gray.900" position="relative">
+    <Flex
+      w="100%"
+      justify="center"
+      bg="gray.900"
+      position="relative"
+      id="skills"
+    >
       <Main>
         <Title title="Minhas Skills" />
         <Flex
@@ -63,7 +69,8 @@ export const Skills = ({
               height="100%"
             >
               <Button
-                bg="rgb(0, 173, 111)"
+                bg=""
+                border={'1px solid rgb(0, 173, 111)'}
                 color="#fff"
                 onClick={handleNextSkills}
                 padding="1.5rem 4rem"

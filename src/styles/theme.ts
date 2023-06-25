@@ -23,11 +23,14 @@ export const theme = extendTheme({
       '*': {
         boxSizing: 'border-box',
       },
+      a: {
+        cursor: 'pointer',
+      },
       html: {
         scrollBehavior: 'smooth',
       },
       body: {
-        bg: 'gray.900',
+        bg: 'rgba(0,0,0,0.96)',
         color: 'gray.50',
         overflowX: 'hidden',
       },

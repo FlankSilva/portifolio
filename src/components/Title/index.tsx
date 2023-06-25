@@ -15,7 +15,6 @@ export const Title = ({ title, mt = '4rem' }: TitleProps) => {
       textAlign="center"
       marginTop={mt}
       marginBottom="2rem"
-      id="skills"
     >
       {title}
     </Text>

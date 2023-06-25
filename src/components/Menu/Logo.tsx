@@ -9,25 +9,26 @@ export const Logo = () => {
       <Box display={'flex'}>
         <Image src={webIcon} width="150" alt="" />
       </Box>
-      <Flex display={'flex'}>
+      <Flex display={'flex'} flexDir={'column'} align={'center'}>
         <Text
           display="flex"
           fontFamily="Bruno Ace SC, cursive"
           fontWeight="extrabold"
           fontSize="1.4rem"
+          lineHeight={'20px'}
         >
-          FLANK
+          FLANK SILVA
         </Text>
         <Text
           display="flex"
           fontFamily="Bruno Ace SC, cursive"
           fontWeight="extrabold"
-          fontSize="1.4rem"
+          fontSize="0.8rem"
           color="#d63031"
           marginLeft="12px"
         >
           {' '}
-          | WEB DEV
+          WEB DEVELOPER
         </Text>
       </Flex>
     </Flex>

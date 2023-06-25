@@ -24,12 +24,15 @@ export const Contact = () => {
       id="contact"
       w={'100%'}
       justify={'center'}
-      padding={['0 10px', '0 10px', '0 10px', '0']}
+      padding={['0 40px', '0 40px', '0 40px', '0']}
       bg={'rgb(11, 11, 11)'}
     >
       <Main>
         <Title title="Fale Comigo" />
-        <Flex flexDir={['column', 'column', 'row', 'row']} gap={'2rem'}>
+        <Flex
+          flexDir={['column', 'column', 'row', 'row']}
+          gap={['2rem', '2rem', '3rem', '6rem', '8rem']}
+        >
           <form
             style={{
               width: '100%',
@@ -65,16 +68,25 @@ export const Contact = () => {
             />
 
             <Button
-              bg={'rgb(0, 173, 111)'}
+              bg={''}
+              border={'1px solid rgb(0, 173, 111)'}
               color={'#fff'}
               type="submit"
               height={'48px'}
               rounded={'none'}
+              _hover={{
+                bg: 'rgb(0, 173, 111)',
+              }}
             >
               Enviar
             </Button>
           </form>
-          <Flex flexDir={'column'} width={'100%'} maxW={'660px'}>
+          <Flex
+            flexDir={'column'}
+            width={'100%'}
+            maxW={'660px'}
+            paddingBottom={'40px'}
+          >
             <Text as={'h3'} color={'rgb(0, 173, 111)'} fontSize={'2rem'}>
               E-mail para contato
             </Text>
