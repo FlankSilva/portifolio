@@ -28,6 +28,7 @@ export function PresentationLogo() {
           <Link
             className="w-full h-full flex items-center justify-center"
             href={'https://github.com/FlankSilva'}
+            target="_blank"
           >
             <GitHubIcon size={21} fill="#000" />
           </Link>
@@ -36,6 +37,7 @@ export function PresentationLogo() {
           <Link
             className="w-full h-full flex items-center justify-center"
             href={'https://www.linkedin.com/in/flank-silva-0a3a5317a/'}
+            target="_blank"
           >
             <LinkedInIcon size={21} />
           </Link>
@@ -44,6 +46,7 @@ export function PresentationLogo() {
           <Link
             className="w-full h-full flex items-center justify-center"
             href={'https://www.youtube.com/@devjunior6354'}
+            target="_blank"
           >
             <YoutubeIcon size={21} />
           </Link>

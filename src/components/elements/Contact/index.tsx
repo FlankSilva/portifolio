@@ -92,6 +92,8 @@ export function Contact() {
               <a
                 href="https://www.linkedin.com/in/flank-silva-0a3a5317a/"
                 className="flex gap-3 items-center"
+                target="_blank"
+                rel="noreferrer"
               >
                 <div className="bg-zinc-50 rounded p-[1.5px]">
                   <LinkedInIcon size={30} />
@@ -101,6 +103,8 @@ export function Contact() {
               <a
                 href="https://github.com/FlankSilva"
                 className="flex gap-3 items-center"
+                target="_blank"
+                rel="noreferrer"
               >
                 <div className="bg-zinc-50 rounded p-[1.5px]">
                   <GitHubIcon size={30} fill="#000" />
@@ -110,6 +114,8 @@ export function Contact() {
               <a
                 href="https://www.youtube.com/@devjunior6354"
                 className="flex gap-3 items-center"
+                target="_blank"
+                rel="noreferrer"
               >
                 <div className="bg-zinc-50 rounded p-[1.5px]">
                   <YoutubeIcon size={30} />
