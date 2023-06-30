@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  -wrbkit-font-smoothing: antialiased;
+}
+
+button, a {
+  cursor: pointer;
+}
+
+div {
+  display: flex;
+}

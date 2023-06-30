@@ -10,10 +10,10 @@ import {
   SassIcon,
   TypeScriptIcon,
   YarnIcon,
-} from '@/components/Icons/SoftSkills'
+} from '@/components/elements/Icons/SoftSkills'
 
 interface SkillsProps {
-  size: '110' | '70'
+  size: '100' | '70'
 }
 
 export const skills = ({ size }: SkillsProps) => [

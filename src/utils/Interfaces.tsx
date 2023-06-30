@@ -1,10 +1,6 @@
-import { RefObject } from 'react'
+import { SVGProps } from 'react'
 
-export interface IconProps {
+export interface IconProps extends SVGProps<SVGSVGElement> {
   fill?: string
-  size?: string
-}
-
-export interface RefElementProps {
-  refElement: RefObject<HTMLDivElement>
+  size?: number | string
 }

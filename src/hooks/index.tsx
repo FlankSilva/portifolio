@@ -1,13 +1,15 @@
 import { ReactNode } from 'react'
-
-import { MenuMobileProvider } from './MenuMobileContext'
+import { MenuProvider } from './MenuContext'
+import { ScrollToDivProvider } from './ScrollToDivContext'
 
 interface AppProviderProps {
   children: ReactNode
 }
 
 const AppProvider = ({ children }: AppProviderProps) => (
-  <MenuMobileProvider>{children}</MenuMobileProvider>
+  <ScrollToDivProvider>
+    <MenuProvider>{children}</MenuProvider>
+  </ScrollToDivProvider>
 )
 
 export default AppProvider
