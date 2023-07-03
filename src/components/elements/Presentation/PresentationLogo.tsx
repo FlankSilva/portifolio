@@ -11,7 +11,7 @@ const orbitron = Orbitron({ subsets: ['latin'] })
 
 export function PresentationLogo() {
   return (
-    <div className="flex flex-col items-center absolute bottom-[320px] md:bottom-[355px]">
+    <div className="flex flex-col items-center">
       <Image src={codeImg} width={130} alt="" />
       <span
         className={`${orbitron.className} font-bold md:text-xl leading-3 md:leading-4`}

@@ -7,10 +7,7 @@ import { Header } from '@/components/elements/Header'
 
 import { skills } from '@/mock/skills'
 
-import {
-  Presentation,
-  PresentationLogo,
-} from '@/components/elements/Presentation'
+import { Presentation } from '@/components/elements/Presentation'
 import { Skills } from '@/components/elements/Skills'
 import { SkillProps } from '@/components/elements/Skills/CardSkill'
 import { Projects } from '@/components/elements/Projects'
@@ -51,9 +48,7 @@ export function HomePage() {
         <Drawer />
         <div className="w-full h-[100vh] flex justify-center">
           <Box>
-            <Presentation>
-              <PresentationLogo />
-            </Presentation>
+            <Presentation />
           </Box>
         </div>
         <About />
