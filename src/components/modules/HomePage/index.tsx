@@ -6,6 +6,7 @@ import { Drawer } from '@/components/elements/Drawer'
 import { Header } from '@/components/elements/Header'
 
 import { skills } from '@/mock/skills'
+import { dataProjects as data } from '@/mock'
 
 import { Presentation } from '@/components/elements/Presentation'
 import { Skills } from '@/components/elements/Skills'
@@ -17,6 +18,40 @@ import { Footer } from '@/components/elements/Footer'
 export function HomePage() {
   const [skillsList, setSkillsList] = useState<SkillProps[]>([])
   const [hiddenNextButton, setHiddenNextButton] = useState(false)
+  const [selectItemDataProject, setSelectItemDataProject] = useState(0)
+  const [isPaused, setIsPaused] = useState(false)
+
+  useEffect(() => {
+    const qtdProject = data.length
+    let interval: any
+
+    if (!isPaused) {
+      interval = setInterval(() => {
+        setSelectItemDataProject((prevCount) => {
+          if (qtdProject === prevCount + 1) {
+            return 0
+          }
+          return prevCount + 1
+        })
+      }, 4000)
+    }
+
+    return () => {
+      clearInterval(interval)
+    }
+  }, [selectItemDataProject, isPaused])
+
+  const handleSetIndexProject = (index: number) => {
+    setSelectItemDataProject(index - 1)
+  }
+
+  const pauseInterval = () => {
+    setIsPaused(true)
+  }
+
+  const resumeInterval = () => {
+    setIsPaused(false)
+  }
 
   useEffect(() => {
     const newListSkills = skills({ size: '100' }).slice(0, 4)
@@ -57,7 +92,13 @@ export function HomePage() {
           handleNextSkills={handleNextSkills}
           hiddenNextButton={hiddenNextButton}
         />
-        <Projects />
+        <Projects
+          setIndexProject={handleSetIndexProject}
+          indexProject={selectItemDataProject}
+          dataProjects={data}
+          pauseInterval={pauseInterval}
+          resumeInterval={resumeInterval}
+        />
         <Contact />
         <Footer />
       </main>

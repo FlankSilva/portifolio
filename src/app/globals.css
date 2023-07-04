@@ -13,3 +13,17 @@ button, a {
 div {
   display: flex;
 }
+
+
+.custon-container-text-skills::-webkit-scrollbar-track {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+.custon-container-text-skills::-webkit-scrollbar {
+    width: 6px;
+    background: #636e72;
+    border-radius: 10px;
+  }
+  .custon-container-text-skills::-webkit-scrollbar-thumb {
+    background: #636e72;
+    border-radius: 10px;
+}

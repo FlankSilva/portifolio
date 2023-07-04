@@ -13,12 +13,8 @@ export function Header() {
         <div className="justify-between w-full py-5 px-4 lg:px-0">
           <Logo />
           <Menu />
-          <a>
-            <HamburgerIcon
-              className="flex md:hidden"
-              size={30}
-              onClick={() => handleSetOpenClose()}
-            />
+          <a className="flex md:hidden">
+            <HamburgerIcon size={30} onClick={() => handleSetOpenClose()} />
           </a>
         </div>
       </Box>
