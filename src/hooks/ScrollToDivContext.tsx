@@ -14,8 +14,6 @@ const ScrollToDivProvider = ({ children }: ScrollToDivProps) => {
   const handleScrollToDiv = (id: string) => {
     const element = document.getElementById(id)
 
-    console.log(id)
-
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' })
     }

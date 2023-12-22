@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { useMenu } from '@/hooks/MenuContext'
 import { listmenu } from '@/mock'
@@ -28,7 +28,11 @@ export function Drawer() {
     >
       {listmenu.map((item) => {
         return (
-          <button key={item.id} onClick={() => handleScrollToDiv(item.id)}>
+          <button
+            className={`${item.id === 'project' ? 'hidden' : ''}`}
+            key={item.id}
+            onClick={() => handleScrollToDiv(item.id)}
+          >
             {item.icon}
           </button>
         )

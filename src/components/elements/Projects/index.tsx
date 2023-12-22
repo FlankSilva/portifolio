@@ -31,7 +31,7 @@ export function Projects({
   return (
     <section
       id="project"
-      className="flex flex-col items-center justify-center  bg-black-900 "
+      className="hidden md:flex flex-col items-center justify-center  bg-black-900 "
     >
       <Title title="Projetos" />
 

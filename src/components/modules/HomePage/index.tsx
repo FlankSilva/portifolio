@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { About } from '@/components/elements/About'
 import { Box } from '@/components/elements/Box'
@@ -27,7 +27,7 @@ export function HomePage() {
 
     if (!isPaused) {
       interval = setInterval(() => {
-        setSelectItemDataProject((prevCount) => {
+        setSelectItemDataProject((prevCount: number) => {
           if (qtdProject === prevCount + 1) {
             return 0
           }
