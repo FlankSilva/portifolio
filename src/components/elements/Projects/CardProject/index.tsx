@@ -43,7 +43,7 @@ export function CardProject({
 
         <p className="text-green-500 font-semibold">Link do projeto</p>
         <span className="text-[0.75rem] relative top-[-4px]">
-          <Link href={project?.link ? project?.link : '#'}>
+          <Link href={project?.link ? project?.link : '#'} target="_blank">
             {project?.link}
           </Link>
         </span>
