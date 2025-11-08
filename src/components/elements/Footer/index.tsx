@@ -1,18 +1,29 @@
-import { Box } from '../Box'
-import { WhatsappIcon } from '../Icons/WhatsappIcon'
-import { Logo } from '../Logo'
-import { EnvelopeSimple } from 'phosphor-react'
+"use client";
 
-import { listmenu } from '@/mock/menuListMock'
+import { motion } from "framer-motion";
+import { EnvelopeSimple } from "phosphor-react";
+import Link from "next/link";
 
-import { useScrollToDiv } from '@/hooks/ScrollToDivContext'
-import Link from 'next/link'
+import { Box } from "../Box";
+import { WhatsappIcon } from "../Icons/WhatsappIcon";
+import { Logo } from "../Logo";
+import { useScrollReveal } from "@/hooks/useScrollReveal";
+import { useScrollToDiv } from "@/hooks/ScrollToDivContext";
+import { fadeIn, getAnimationVariants, hoverScale } from "@/utils/animations";
+import { listmenu } from "@/mock/menuListMock";
 
 export function Footer() {
-  const { handleScrollToDiv } = useScrollToDiv()
+  const { handleScrollToDiv } = useScrollToDiv();
+  const { ref, isVisible } = useScrollReveal({ threshold: 0.2 });
 
   return (
-    <div className="bg-black-950 pt-10 px-4 lg:px-0 flex justify-center">
+    <motion.div
+      ref={ref}
+      initial="hidden"
+      animate={isVisible ? "visible" : "hidden"}
+      variants={getAnimationVariants(fadeIn)}
+      className="bg-black-950 pt-10 px-4 lg:px-0 flex justify-center"
+    >
       <Box>
         <div className="w-full flex flex-col">
           <div className="flex items-center w-full gap-10">
@@ -48,7 +59,7 @@ export function Footer() {
                   </li>
                   <li className="text-zinc-200">
                     <Link
-                      href={'https://www.youtube.com/@devjunior6354'}
+                      href={"https://www.youtube.com/@devjunior6354"}
                       target="_blank"
                     >
                       Youtube
@@ -64,32 +75,48 @@ export function Footer() {
             </div>
             <div className="flex flex-row mt-8">
               <div className="flex flex-col w-[180px] md:w-[220px] gap-3">
-                <div className="flex gap-2">
-                  <div className="bg-zinc-50 w-8 h-8 rounded-full flex items-center justify-center">
+                <motion.div
+                  whileHover="hover"
+                  variants={getAnimationVariants(hoverScale)}
+                  className="flex gap-2"
+                >
+                  <motion.div
+                    whileHover="hover"
+                    variants={getAnimationVariants(hoverScale)}
+                    className="bg-zinc-50 w-8 h-8 rounded-full flex items-center justify-center"
+                  >
                     <Link
-                      href={'https://api.whatsapp.com/send?phone=19992360973'}
+                      href={"https://api.whatsapp.com/send?phone=19992360973"}
                       target="_blank"
                     >
                       <WhatsappIcon size={20} color="#000" />
                     </Link>
-                  </div>
+                  </motion.div>
                   <span className="text-[0.700rem] text-zinc-100">
                     TELEFONE PARA <br /> CONTATO
                   </span>
-                </div>
-                <div className="flex gap-2">
-                  <div className="bg-zinc-50 w-8 h-8 rounded-full flex items-center justify-center">
+                </motion.div>
+                <motion.div
+                  whileHover="hover"
+                  variants={getAnimationVariants(hoverScale)}
+                  className="flex gap-2"
+                >
+                  <motion.div
+                    whileHover="hover"
+                    variants={getAnimationVariants(hoverScale)}
+                    className="bg-zinc-50 w-8 h-8 rounded-full flex items-center justify-center"
+                  >
                     <Link
-                      href={'mailto:flank.silva.0@gmail.com'}
+                      href={"mailto:flank.silva.0@gmail.com"}
                       target="_blank"
                     >
                       <EnvelopeSimple size={24} color="#000" />
                     </Link>
-                  </div>
+                  </motion.div>
                   <span className="text-[0.700rem]">
                     E-MAIL PARA <br /> CONTATO
                   </span>
-                </div>
+                </motion.div>
               </div>
               <div className="flex flex-col gap-5 ">
                 <span className="text-base font-bold">(19) 9 92360973</span>
@@ -105,6 +132,6 @@ export function Footer() {
           </p>
         </div>
       </Box>
-    </div>
-  )
+    </motion.div>
+  );
 }

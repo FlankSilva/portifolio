@@ -1,3 +1,6 @@
+'use client'
+
+import { motion } from 'framer-motion'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -8,10 +11,13 @@ import { Title } from '../Title'
 import { LinkedInIcon } from '../Icons/LinkedInIcon'
 import { GitHubIcon } from '../Icons/GitHubIcon'
 import { YoutubeIcon } from '../Icons/YoutubeIcon'
+import { useScrollReveal } from '@/hooks/useScrollReveal'
+import { formStagger, formItem, getAnimationVariants, hoverRotate, hoverScale } from '@/utils/animations'
 import { formValidate } from '@/utils/validateForm'
 
 export function Contact() {
   const [isLoading, setIsLoading] = useState(false)
+  const { ref, isVisible } = useScrollReveal({ threshold: 0.2 })
 
   const { register, handleSubmit, formState, resetField } = useForm({
     resolver: zodResolver(formValidate),
@@ -51,79 +57,145 @@ export function Contact() {
       <Title title="Fale comigo" />
 
       <Box>
-        <div className="flex justify-around w-full flex-col md:flex-row md:items-start items-center px-4 lg:px-0">
-          <form className="flex flex-col gap-3 w-full max-w-[500px] md:max-w-[450px] lg:max-w-[450]">
-            <Input
-              name="nome"
-              register={register}
-              placeholder="Digite seu nome"
-              messageError={formState.errors.nome?.message}
-            />
-            <Input
-              name="email"
-              register={register}
-              placeholder="Digite seu e-mail"
-              messageError={formState.errors.email?.message}
-            />
-            <Input
-              name="subject"
-              register={register}
-              placeholder="Digite o assunto"
-              messageError={formState.errors.subject?.message}
-            />
-            <TextArea
-              name="message"
-              register={register}
-              placeholder="Digite sua menssagem"
-              messageError={formState.errors.message?.message}
-            />
-            <Button onClick={handleSubmit(onSubmit)} isLoading={isLoading}>
-              Enviar
-            </Button>
-          </form>
-          <div className="flex flex-col justify-start w-full max-w-[500px] md:max-w-[300px] mt-11 md:mt-0">
-            <h3 className="text-[2rem] text-green-500">E-mail para contato</h3>
-            <span>flank.silva.0@gmail.com</span>
+        <div ref={ref} className="flex justify-around w-full flex-col md:flex-row md:items-start items-center px-4 lg:px-0">
+          <motion.form
+            initial="hidden"
+            animate={isVisible ? 'visible' : 'hidden'}
+            variants={getAnimationVariants(formStagger)}
+            className="flex flex-col gap-3 w-full max-w-[500px] md:max-w-[450px] lg:max-w-[450]"
+          >
+            <motion.div variants={getAnimationVariants(formItem)}>
+              <Input
+                name="nome"
+                register={register}
+                placeholder="Digite seu nome"
+                messageError={formState.errors.nome?.message}
+              />
+            </motion.div>
+            <motion.div variants={getAnimationVariants(formItem)}>
+              <Input
+                name="email"
+                register={register}
+                placeholder="Digite seu e-mail"
+                messageError={formState.errors.email?.message}
+              />
+            </motion.div>
+            <motion.div variants={getAnimationVariants(formItem)}>
+              <Input
+                name="subject"
+                register={register}
+                placeholder="Digite o assunto"
+                messageError={formState.errors.subject?.message}
+              />
+            </motion.div>
+            <motion.div variants={getAnimationVariants(formItem)}>
+              <TextArea
+                name="message"
+                register={register}
+                placeholder="Digite sua menssagem"
+                messageError={formState.errors.message?.message}
+              />
+            </motion.div>
+            <motion.div variants={getAnimationVariants(formItem)}>
+              <Button onClick={handleSubmit(onSubmit)} isLoading={isLoading}>
+                Enviar
+              </Button>
+            </motion.div>
+          </motion.form>
+          <motion.div
+            initial="hidden"
+            animate={isVisible ? 'visible' : 'hidden'}
+            variants={getAnimationVariants(formStagger)}
+            className="flex flex-col justify-start w-full max-w-[500px] md:max-w-[300px] mt-11 md:mt-0"
+          >
+            <motion.h3
+              variants={getAnimationVariants(formItem)}
+              className="text-[2rem] text-green-500"
+            >
+              E-mail para contato
+            </motion.h3>
+            <motion.span variants={getAnimationVariants(formItem)}>
+              flank.silva.0@gmail.com
+            </motion.span>
 
-            <h3 className="text-[2rem] text-green-500 mt-12 md:mt-16">
+            <motion.h3
+              variants={getAnimationVariants(formItem)}
+              className="text-[2rem] text-green-500 mt-12 md:mt-16"
+            >
               Minhas redes
-            </h3>
-            <div className="flex flex-col gap-3">
-              <a
+            </motion.h3>
+            <motion.div
+              variants={getAnimationVariants(formStagger)}
+              className="flex flex-col gap-3"
+            >
+              <motion.a
+                variants={getAnimationVariants(formItem)}
+                whileHover="hover"
                 href="https://www.linkedin.com/in/flank-silva-0a3a5317a/"
                 className="flex gap-3 items-center"
                 target="_blank"
                 rel="noreferrer"
               >
-                <div className="bg-zinc-50 rounded p-[1.5px]">
-                  <LinkedInIcon size={30} />
-                </div>
+                <motion.div
+                  whileHover="hover"
+                  variants={getAnimationVariants(hoverScale)}
+                  className="bg-zinc-50 rounded p-[1.5px]"
+                >
+                  <motion.div
+                    whileHover="hover"
+                    variants={getAnimationVariants(hoverRotate)}
+                  >
+                    <LinkedInIcon size={30} />
+                  </motion.div>
+                </motion.div>
                 <span>/flank-silva-0a3a5317a</span>
-              </a>
-              <a
+              </motion.a>
+              <motion.a
+                variants={getAnimationVariants(formItem)}
+                whileHover="hover"
                 href="https://github.com/FlankSilva"
                 className="flex gap-3 items-center"
                 target="_blank"
                 rel="noreferrer"
               >
-                <div className="bg-zinc-50 rounded p-[1.5px]">
-                  <GitHubIcon size={30} fill="#000" />
-                </div>
+                <motion.div
+                  whileHover="hover"
+                  variants={getAnimationVariants(hoverScale)}
+                  className="bg-zinc-50 rounded p-[1.5px]"
+                >
+                  <motion.div
+                    whileHover="hover"
+                    variants={getAnimationVariants(hoverRotate)}
+                  >
+                    <GitHubIcon size={30} fill="#000" />
+                  </motion.div>
+                </motion.div>
                 <span>/FlankSilva</span>
-              </a>
-              <a
+              </motion.a>
+              <motion.a
+                variants={getAnimationVariants(formItem)}
+                whileHover="hover"
                 href="https://www.youtube.com/@devjunior6354"
                 className="flex gap-3 items-center"
                 target="_blank"
                 rel="noreferrer"
               >
-                <div className="bg-zinc-50 rounded p-[1.5px]">
-                  <YoutubeIcon size={30} />
-                </div>
+                <motion.div
+                  whileHover="hover"
+                  variants={getAnimationVariants(hoverScale)}
+                  className="bg-zinc-50 rounded p-[1.5px]"
+                >
+                  <motion.div
+                    whileHover="hover"
+                    variants={getAnimationVariants(hoverRotate)}
+                  >
+                    <YoutubeIcon size={30} />
+                  </motion.div>
+                </motion.div>
                 <span>/@devjunior6354</span>
-              </a>
-            </div>
-          </div>
+              </motion.a>
+            </motion.div>
+          </motion.div>
         </div>
       </Box>
     </section>

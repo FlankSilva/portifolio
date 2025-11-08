@@ -1,6 +1,11 @@
+'use client'
+
+import { motion } from 'framer-motion'
+
 import { Box } from '../Box'
 import { Button } from '../Form'
 import { Title } from '../Title'
+import { getAnimationVariants, staggerContainer, staggerItem } from '@/utils/animations'
 import { CardSkill, SkillProps } from './CardSkill'
 
 export interface SkillsProps {
@@ -20,22 +25,37 @@ export function Skills({
 
       <Box>
         <div className="flex flex-col items-center">
-          <section className="flex flex-wrap gap-7 lg:gap-5 justify-between px-9 lg:px-0">
+          <motion.section
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+            variants={getAnimationVariants(staggerContainer)}
+            className="flex flex-wrap gap-7 lg:gap-5 justify-between px-9 lg:px-0"
+          >
             {skills.map((item, index) => (
-              <CardSkill
+              <motion.div
                 key={`${item.title}-${index}`}
-                title={item.title}
-                description={item.description}
-                icon={item.icon}
-              />
+                variants={getAnimationVariants(staggerItem)}
+              >
+                <CardSkill
+                  title={item.title}
+                  description={item.description}
+                  icon={item.icon}
+                />
+              </motion.div>
             ))}
-          </section>
+          </motion.section>
           {!hiddenNextButton && (
-            <div className="mt-4">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5 }}
+              className="mt-4"
+            >
               <Button onClick={() => handleNextSkills()}>
                 <span className="text-sm font-bold">Mais Skills</span>
               </Button>
-            </div>
+            </motion.div>
           )}
         </div>
       </Box>

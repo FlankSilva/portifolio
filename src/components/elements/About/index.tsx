@@ -1,21 +1,54 @@
-import Image from 'next/image'
+"use client";
 
-import quoteLeft from '@/assets/quote-left.png'
-import quoteRight from '@/assets/quote-right.png'
-import profileCicle from '@/assets/profile-circle.png'
-import profile from '@/assets/flank.webp'
-import { Title } from '../Title'
+import { motion } from "framer-motion";
+import Image from "next/image";
+
+import quoteLeft from "@/assets/quote-left.png";
+import quoteRight from "@/assets/quote-right.png";
+import profileCicle from "@/assets/profile-circle.png";
+import profile from "@/assets/flank.webp";
+import { useScrollReveal } from "@/hooks/useScrollReveal";
+import {
+  createDelayedAnimation,
+  getAnimationVariants,
+  scale,
+  slideLeft,
+  slideRight,
+} from "@/utils/animations";
+import { Title } from "../Title";
 
 export function About() {
+  const { ref, isVisible } = useScrollReveal({ threshold: 0.2 });
+
   return (
     <section
       id="about"
       className="flex flex-col items-center bg-black-950 pb-[4rem]"
     >
       <Title title="Quem sou eu" />
-      <div className="px-9 lg:px-0 flex flex-col items-center text-zinc-100">
-        <div className="flex flex-col gap-12 lg:w-[80%] xl:flex-row">
-          <div className="flex flex-col">
+      <div
+        ref={ref}
+        className="px-9 lg:px-0 flex flex-col items-center text-zinc-100"
+      >
+        <motion.div
+          initial="hidden"
+          animate={isVisible ? "visible" : "hidden"}
+          variants={getAnimationVariants({
+            hidden: { opacity: 0 },
+            visible: {
+              opacity: 1,
+              transition: {
+                staggerChildren: 0.2,
+                delayChildren: 0.1,
+              },
+            },
+          })}
+          className="flex flex-col gap-12 lg:w-[80%] xl:flex-row"
+        >
+          <motion.div
+            variants={getAnimationVariants(slideLeft)}
+            className="flex flex-col"
+          >
             <p className="text-red-400 font-bold mb-4 text-xl">CITAÇÃO</p>
             <p className="flex xl:text-sm">
               <Image
@@ -24,10 +57,10 @@ export function About() {
                 width={28}
                 height={24}
                 style={{
-                  width: '28px',
-                  height: '24px',
-                  position: 'relative',
-                  left: '-7px',
+                  width: "28px",
+                  height: "24px",
+                  position: "relative",
+                  left: "-7px",
                 }}
               />
               A programação web é como um universo infinito de possibilidades,
@@ -40,17 +73,20 @@ export function About() {
                 width={28}
                 height={23}
                 style={{
-                  width: '28px',
-                  height: '23px',
-                  marginTop: 'auto',
+                  width: "28px",
+                  height: "23px",
+                  marginTop: "auto",
                 }}
               />
             </p>
 
             <p className="text-red-400 font-bold mt-8">OCUPAÇÕES ATUAIS</p>
-            <p>Web Development Pleno</p>
-          </div>
-          <div className="flex justify-center items-center relative  xl:min-w-[16.438rem]">
+            <p>Full Stack Developer</p>
+          </motion.div>
+          <motion.div
+            variants={getAnimationVariants(createDelayedAnimation(0.2, scale))}
+            className="flex justify-center items-center relative  xl:min-w-[16.438rem]"
+          >
             <Image
               src={profileCicle}
               alt="profile circle"
@@ -63,14 +99,17 @@ export function About() {
               width={250}
               height={250}
               style={{
-                position: 'absolute',
-                borderRadius: '50%',
-                width: '180px',
-                height: '180px',
+                position: "absolute",
+                borderRadius: "50%",
+                width: "180px",
+                height: "180px",
               }}
             />
-          </div>
-          <div className="flex flex-col">
+          </motion.div>
+          <motion.div
+            variants={getAnimationVariants(slideRight)}
+            className="flex flex-col"
+          >
             <h2 className="text-red-400 text-6xl font-bold mb-4">Olá,</h2>
             <p className="xl:text-sm">
               Sou Flank Silva, entusiasta das melhores tecnologias de
@@ -84,9 +123,9 @@ export function About() {
               para as pessoas de forma que torne nossas vidas mais produtivas.
               🚀
             </p>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
     </section>
-  )
+  );
 }
