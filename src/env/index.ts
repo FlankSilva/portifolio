@@ -11,7 +11,13 @@ const _env = envSchema.safeParse(process.env)
 if (_env.success === false) {
   console.error('❗Invalid environment variable', _env.error.format())
 
-  throw new Error('Invalid environment variable.')
+  // Só lança erro em runtime, não durante o build
+  if (typeof window === 'undefined' && process.env.NODE_ENV !== 'production') {
+    throw new Error('Invalid environment variable.')
+  }
 }
 
-export const env = _env.data
+export const env = _env.success ? _env.data : {
+  USER_EMAIL: process.env.USER_EMAIL || '',
+  USER_EMAIL_PASS: process.env.USER_EMAIL_PASS || '',
+}

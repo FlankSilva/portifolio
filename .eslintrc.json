@@ -1,5 +1,5 @@
 {
-  "extends": "@rocketseat/eslint-config/react", // Se for node, use apenas esse
+  "extends": "next/core-web-vitals",
   "globals": {
     "React": true,
     "google": true,

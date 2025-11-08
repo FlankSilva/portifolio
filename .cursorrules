@@ -2,9 +2,10 @@
 
 ## Tecnologias Principais
 
-- **Next.js 13.4.7** com App Router (app directory)
-- **TypeScript 5.1.3** com strict mode habilitado
-- **Tailwind CSS 3.3.2** para estilização
+- **Next.js 16.0.1** com App Router (app directory) e Turbopack
+- **TypeScript 5.7.2** com strict mode habilitado
+- **React 19.0.0** e **React DOM 19.0.0**
+- **Tailwind CSS 3.4.17** para estilização
 - **React Hook Form** + **Zod** para validação de formulários
 - **Context API** para gerenciamento de estado global
 - **Phosphor Icons** para ícones SVG

@@ -1,14 +1,15 @@
 # Portfólio - Flank Silva
 
-Portfólio pessoal desenvolvido com Next.js 13, TypeScript e Tailwind CSS, apresentando projetos, habilidades e informações de contato.
+Portfólio pessoal desenvolvido com Next.js 16, TypeScript e Tailwind CSS, apresentando projetos, habilidades e informações de contato.
 
 ## 🚀 Tecnologias
 
 Este projeto foi desenvolvido com as seguintes tecnologias:
 
-- **[Next.js 13.4.7](https://nextjs.org/)** - Framework React com App Router
-- **[TypeScript 5.1.3](https://www.typescriptlang.org/)** - Tipagem estática
-- **[Tailwind CSS 3.3.2](https://tailwindcss.com/)** - Framework CSS utilitário
+- **[Next.js 16.0.1](https://nextjs.org/)** - Framework React com App Router e Turbopack
+- **[React 19.0.0](https://react.dev/)** - Biblioteca JavaScript para interfaces
+- **[TypeScript 5.7.2](https://www.typescriptlang.org/)** - Tipagem estática
+- **[Tailwind CSS 3.4.17](https://tailwindcss.com/)** - Framework CSS utilitário
 - **[React Hook Form](https://react-hook-form.com/)** - Gerenciamento de formulários
 - **[Zod](https://zod.dev/)** - Validação de schemas TypeScript-first
 - **[Phosphor Icons](https://phosphoricons.com/)** - Biblioteca de ícones
@@ -73,7 +74,7 @@ portifolio/
 
 ### Pré-requisitos
 
-- Node.js 18+ ou superior
+- Node.js 20.9.0+ ou superior (requerido para Next.js 16)
 - Yarn (recomendado) ou npm
 
 ### Passos
@@ -178,13 +179,14 @@ As seguintes variáveis de ambiente são necessárias (definidas em `.env.local`
 
 ```json
 {
-  "next": "13.4.7",
-  "react": "18.2.0",
-  "typescript": "5.1.3",
-  "tailwindcss": "3.3.2",
-  "react-hook-form": "^7.45.1",
-  "zod": "^3.21.4",
-  "nodemailer": "^6.9.3",
+  "next": "16.0.1",
+  "react": "19.0.0",
+  "react-dom": "19.0.0",
+  "typescript": "5.7.2",
+  "tailwindcss": "3.4.17",
+  "react-hook-form": "^7.54.2",
+  "zod": "^3.24.1",
+  "nodemailer": "^6.9.16",
   "phosphor-react": "^1.4.1"
 }
 ```
