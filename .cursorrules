@@ -1,0 +1,216 @@
+# Regras do Projeto - Portfólio Next.js
+
+## Tecnologias Principais
+
+- **Next.js 13.4.7** com App Router (app directory)
+- **TypeScript 5.1.3** com strict mode habilitado
+- **Tailwind CSS 3.3.2** para estilização
+- **React Hook Form** + **Zod** para validação de formulários
+- **Context API** para gerenciamento de estado global
+- **Phosphor Icons** para ícones SVG
+- **Nodemailer** para envio de emails
+
+## TypeScript
+
+- **SEMPRE** use TypeScript strict mode
+- **SEMPRE** defina interfaces/types para props de componentes
+- **SEMPRE** tipifique variáveis, funções e retornos
+- **NUNCA** use `any` - use `unknown` ou tipos específicos
+- Use interfaces para objetos e types para unions/intersections
+- Exporte interfaces compartilhadas em `src/utils/Interfaces.tsx`
+- Valide variáveis de ambiente com Zod (exemplo em `src/env/index.ts`)
+
+## Clean Code
+
+- **Componentes pequenos e focados**: cada componente deve ter uma única responsabilidade
+- **Separação de responsabilidades**: lógica de negócio em hooks/utils, UI em componentes
+- **Nomenclatura clara**: use nomes descritivos para variáveis, funções e componentes
+- **DRY (Don't Repeat Yourself)**: extraia lógica repetida em funções/hooks reutilizáveis
+- **Composição sobre herança**: prefira composição de componentes
+- **Funções puras quando possível**: evite efeitos colaterais desnecessários
+
+## Estrutura de Pastas
+
+```
+src/
+├── app/                    # Rotas e páginas do Next.js (App Router)
+│   ├── api/               # API Routes
+│   ├── layout.tsx         # Layout raiz
+│   └── page.tsx           # Página inicial
+├── components/
+│   ├── elements/          # Componentes reutilizáveis (Header, Button, Input, etc.)
+│   │   └── [ComponentName]/
+│   │       └── index.tsx  # Cada componente em sua própria pasta
+│   └── modules/           # Módulos/páginas completas (HomePage, etc.)
+├── hooks/                 # Contextos e hooks customizados
+├── utils/                 # Funções utilitárias e interfaces compartilhadas
+├── mock/                  # Dados mockados para desenvolvimento
+└── assets/                # Imagens e recursos estáticos
+```
+
+### Regras de Organização
+
+- Cada componente deve estar em sua própria pasta com `index.tsx`
+- Componentes reutilizáveis em `src/components/elements/`
+- Módulos completos em `src/components/modules/`
+- Hooks customizados em `src/hooks/`
+- Utilitários e interfaces em `src/utils/`
+- Dados mockados em `src/mock/`
+
+## Imports e Path Aliases
+
+- **SEMPRE** use path aliases `@/` para imports absolutos
+- Exemplo: `import { Button } from '@/components/elements/Form/Button'`
+- **NUNCA** use imports relativos como `../../../`
+- Configure paths no `tsconfig.json` (já configurado: `"@/*": ["./src/*"]`)
+
+## React e Next.js
+
+### Componentes
+
+- Use **componentes funcionais** (não classes)
+- Use `'use client'` apenas quando necessário (hooks, eventos, estado)
+- Componentes do servidor por padrão (sem 'use client')
+- Exporte componentes com named exports: `export function ComponentName() {}`
+
+### App Router
+
+- Use App Router do Next.js 13+ (não Pages Router)
+- Rotas em `src/app/` seguindo a estrutura de pastas
+- API Routes em `src/app/api/[route]/route.ts`
+- Metadata em `layout.tsx` ou `page.tsx`
+
+### Imagens
+
+- **SEMPRE** use `next/image` para otimização
+- Defina `width` e `height` ou use `fill` com container relativo
+- Use `priority` para imagens acima da dobra (above the fold)
+- Defina `alt` descritivo para acessibilidade
+
+## Tailwind CSS
+
+### Classes Utilitárias
+
+- **SEMPRE** use classes Tailwind, evite CSS customizado quando possível
+- Use cores customizadas do projeto definidas em `tailwind.config.js`:
+  - `black-950`, `black-900`, `black-800`, `black-600`, `black-500`
+  - `zinc-50`, `zinc-100`, `zinc-150`, `zinc-200`
+  - `green-200`, `green-300`, `green-500`
+  - `red-400`
+- Use `boxBorderMenu` para sombras customizadas quando necessário
+
+### Responsividade (Mobile-First)
+
+- **SEMPRE** siga abordagem mobile-first
+- Use breakpoints do Tailwind:
+  - `sm:` - 640px (pequenos tablets)
+  - `md:` - 768px (tablets)
+  - `lg:` - 1024px (desktops)
+  - `xl:` - 1280px (desktops grandes)
+- Exemplo: `flex flex-col md:flex-row` (mobile: coluna, desktop: linha)
+- Teste em diferentes tamanhos de tela
+- Use classes responsivas para espaçamento, tamanhos de fonte, visibilidade
+
+### Exemplos de Responsividade
+
+```tsx
+// Container responsivo
+className="w-full px-4 lg:px-0"
+
+// Layout flex responsivo
+className="flex flex-col md:flex-row"
+
+// Texto responsivo
+className="text-3xl md:text-5xl"
+
+// Gap responsivo
+className="gap-7 lg:gap-5"
+
+// Visibilidade responsiva
+className="hidden md:flex"
+```
+
+## Validação com Zod
+
+- **SEMPRE** valide formulários com Zod
+- Crie schemas de validação em `src/utils/validateForm.tsx`
+- Use `@hookform/resolvers` com `zodResolver` no React Hook Form
+- Valide variáveis de ambiente com Zod (exemplo em `src/env/index.ts`)
+- Mensagens de erro em português
+
+## Formulários
+
+- Use **React Hook Form** para gerenciamento de formulários
+- Use componentes de formulário reutilizáveis de `src/components/elements/Form/`
+- Valide com Zod através do `zodResolver`
+- Exiba erros de validação de forma clara para o usuário
+- Use estados de loading durante submissão
+
+## Context API
+
+- Crie contextos em `src/hooks/[ContextName]Context.tsx`
+- Exporte hook customizado: `use[ContextName]()`
+- Use Provider para envolver componentes que precisam do contexto
+- Combine providers em `AppProvider` quando necessário
+
+## Nomenclatura
+
+### Componentes
+- **PascalCase**: `Button`, `CardProject`, `HomePage`
+- Nome deve descrever a função do componente
+
+### Arquivos e Pastas
+- Componentes: `[ComponentName]/index.tsx`
+- Hooks: `use[HookName].tsx` ou `[HookName]Context.tsx`
+- Utilitários: `[utilityName].tsx` (camelCase)
+- Interfaces: `Interfaces.tsx` ou no mesmo arquivo do componente
+
+### Variáveis e Funções
+- **camelCase**: `handleSubmit`, `isLoading`, `activeBoxMenu`
+- Funções de evento: prefixo `handle` (ex: `handleSetOpenClose`)
+- Booleanos: prefixo `is`/`has` (ex: `isLoading`, `isOpenMenu`)
+
+## Estilo e Formatação
+
+- Use **2 espaços** para indentação
+- Use aspas simples para strings quando possível
+- Use ponto e vírgula no final das linhas
+- Quebre linhas longas para melhor legibilidade
+- Agrupe imports: React, Next.js, bibliotecas externas, imports internos
+- Ordene imports: externos primeiro, depois internos com `@/`
+
+## Performance
+
+- Use `useMemo` e `useCallback` quando apropriado (evite otimização prematura)
+- Lazy load de componentes pesados quando necessário
+- Otimize imagens com `next/image`
+- Limpe intervalos e listeners em `useEffect` cleanup
+
+## Acessibilidade
+
+- **SEMPRE** defina `alt` descritivo em imagens
+- Use elementos semânticos HTML (`<header>`, `<main>`, `<section>`, etc.)
+- Mantenha contraste adequado de cores
+- Use `aria-label` quando necessário
+- Teste navegação por teclado
+
+## Tratamento de Erros
+
+- Trate erros em chamadas de API
+- Use try/catch em funções assíncronas
+- Exiba mensagens de erro amigáveis ao usuário
+- Log erros no console para debug (remover em produção se necessário)
+
+## Comentários
+
+- Evite comentários óbvios
+- Use comentários para explicar "por quê", não "o quê"
+- Comente lógica complexa ou não intuitiva
+- Mantenha comentários atualizados com o código
+
+## Git
+
+- Commits descritivos e em português
+- Uma funcionalidade por commit quando possível
+- Use mensagens claras sobre o que foi alterado
+
