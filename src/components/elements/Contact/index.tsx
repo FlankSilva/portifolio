@@ -57,6 +57,18 @@ export function Contact() {
       <Title title="Fale comigo" />
 
       <Box>
+        <motion.div
+          initial="hidden"
+          animate={isVisible ? 'visible' : 'hidden'}
+          variants={getAnimationVariants(formItem)}
+          className="text-center mb-8 px-4 lg:px-0"
+        >
+          <p className="text-zinc-100 text-lg">
+            Interessado em conversar? Estou aberto a oportunidades{' '}
+            <strong className="text-green-500">100% remotas</strong> e projetos
+            que valorizem qualidade, autonomia e boas práticas.
+          </p>
+        </motion.div>
         <div ref={ref} className="flex justify-around w-full flex-col md:flex-row md:items-start items-center px-4 lg:px-0">
           <motion.form
             initial="hidden"
@@ -134,7 +146,8 @@ export function Contact() {
                 href="https://www.linkedin.com/in/flank-silva-0a3a5317a/"
                 className="flex gap-3 items-center"
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
+                aria-label="Visitar perfil do LinkedIn de Flank Silva"
               >
                 <motion.div
                   whileHover="hover"
@@ -156,7 +169,8 @@ export function Contact() {
                 href="https://github.com/FlankSilva"
                 className="flex gap-3 items-center"
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
+                aria-label="Visitar perfil do GitHub de Flank Silva"
               >
                 <motion.div
                   whileHover="hover"
@@ -178,7 +192,8 @@ export function Contact() {
                 href="https://www.youtube.com/@devjunior6354"
                 className="flex gap-3 items-center"
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
+                aria-label="Visitar canal do YouTube de Flank Silva"
               >
                 <motion.div
                   whileHover="hover"

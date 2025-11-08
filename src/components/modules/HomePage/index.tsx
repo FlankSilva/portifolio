@@ -54,9 +54,9 @@ export function HomePage() {
   }
 
   useEffect(() => {
-    const newListSkills = skills({ size: '100' }).slice(0, 4)
-
-    setSkillsList(newListSkills)
+    const allSkills = skills({ size: '100' })
+    setSkillsList(allSkills)
+    setHiddenNextButton(true)
   }, [])
 
   const handleNextSkills = () => {

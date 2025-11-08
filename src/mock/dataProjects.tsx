@@ -1,12 +1,24 @@
 import imgSpotify from '@/assets/capa-spotify.png'
 import imgDevStore from '@/assets/devstore.png'
 
-export const dataProjects = [
+export interface ProjectData {
+  id: number
+  name: string
+  description: string
+  stack: string
+  link: string
+  repoName: string
+  repo: string
+  image: any
+}
+
+export const dataProjects: ProjectData[] = [
   {
     id: 1,
-    name: 'Spotify Tailwind',
+    name: 'Spotify Clone',
     description:
-      'Projeto baseado na pagina de playlist do spotify. Feito com o NextJs e tailwind na estilização.',
+      'Clone da interface de playlist do Spotify desenvolvido com Next.js e Tailwind CSS. Implementação de layout responsivo, animações suaves e otimização de performance com SSR.',
+    stack: 'Next.js, React, TypeScript, Tailwind CSS',
     link: 'https://spotify-tailwind-omega.vercel.app/',
     repoName: '/FlankSilva/Spotify-Tailwind',
     repo: 'https://github.com/FlankSilva/Spotify-Tailwind',
@@ -14,19 +26,13 @@ export const dataProjects = [
   },
   {
     id: 2,
-    name: 'Ignite Store',
+    name: 'E-commerce Platform',
     description:
-      'Projeto baseado no Ignite Shop. Feito com o NextJs e tailwind na estilização.',
+      'Plataforma de e-commerce completa com carrinho de compras, checkout e integração de pagamento. Desenvolvida com Next.js, incluindo otimizações de SEO e performance.',
+    stack: 'Next.js, React, TypeScript, Tailwind CSS',
     link: 'https://devstore-tau.vercel.app/',
-    repo: '/FlankSilva/devstore',
+    repoName: '/FlankSilva/devstore',
+    repo: 'https://github.com/FlankSilva/devstore',
     image: imgDevStore,
-  },
-  {
-    id: 3,
-    name: 'Em breve',
-    description: '',
-    link: '',
-    repo: '',
-    image: '',
   },
 ]

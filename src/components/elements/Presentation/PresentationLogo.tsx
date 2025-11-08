@@ -21,7 +21,11 @@ export function PresentationLogo() {
         animate="visible"
         variants={getAnimationVariants(fadeIn)}
       >
-        <Image src={codeImg} width={130} alt="" />
+        <Image
+          src={codeImg}
+          width={130}
+          alt="Ícone de código representando desenvolvimento de software"
+        />
       </motion.div>
       <motion.span
         initial="hidden"
@@ -37,7 +41,7 @@ export function PresentationLogo() {
         variants={getAnimationVariants(createDelayedAnimation(0.2, fadeIn))}
         className={`${orbitron.className} text-[7px] font-bold leading-4 md:leading-4 text-red-400`}
       >
-        FRONTEND DEVELOPMENT
+        SENIOR FULL STACK DEVELOPER
       </motion.span>
       <motion.div
         initial="hidden"
@@ -54,6 +58,8 @@ export function PresentationLogo() {
             className="w-full h-full flex items-center justify-center"
             href={'https://github.com/FlankSilva'}
             target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Visitar perfil do GitHub de Flank Silva"
           >
             <GitHubIcon size={21} fill="#000" />
           </Link>
@@ -67,6 +73,8 @@ export function PresentationLogo() {
             className="w-full h-full flex items-center justify-center"
             href={'https://www.linkedin.com/in/flank-silva-0a3a5317a/'}
             target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Visitar perfil do LinkedIn de Flank Silva"
           >
             <LinkedInIcon size={21} />
           </Link>
@@ -80,6 +88,8 @@ export function PresentationLogo() {
             className="w-full h-full flex items-center justify-center"
             href={'https://www.youtube.com/@devjunior6354'}
             target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Visitar canal do YouTube de Flank Silva"
           >
             <YoutubeIcon size={21} />
           </Link>

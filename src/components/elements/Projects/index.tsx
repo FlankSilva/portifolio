@@ -7,6 +7,7 @@ export interface ProjectData {
   id?: number
   name?: string
   description?: string
+  stack?: string
   link?: string
   repo?: string
   repoName?: string

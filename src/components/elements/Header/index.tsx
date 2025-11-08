@@ -23,9 +23,14 @@ export function Header() {
         <div className="justify-between w-full py-5 px-4 lg:px-0">
           <Logo />
           <Menu />
-          <a className="flex md:hidden">
+          <button
+            className="flex md:hidden"
+            onClick={() => handleSetOpenClose()}
+            aria-label="Abrir menu de navegação"
+            aria-expanded="false"
+          >
             <HamburgerIcon size={30} onClick={() => handleSetOpenClose()} />
-          </a>
+          </button>
         </div>
       </Box>
     </motion.div>

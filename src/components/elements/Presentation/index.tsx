@@ -27,7 +27,7 @@ export function Presentation() {
           className="w-[970px] px-4 lg:px-0"
           src={mcbookImg}
           width={970}
-          alt=""
+          alt="MacBook exibindo interface de desenvolvimento"
           priority
         />
       </motion.div>

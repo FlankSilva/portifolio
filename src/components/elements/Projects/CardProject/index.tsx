@@ -40,7 +40,7 @@ export function CardProject({
         >
           <Image
             src={project?.image ? project.image : defaultImag}
-            alt="spotify"
+            alt={`Preview do projeto ${project?.name || 'projeto'}`}
             width={857}
             height={483}
             className="w-[432px] h-auto rounded"
@@ -63,16 +63,35 @@ export function CardProject({
             {project?.description}
           </span>
 
+          {project?.stack && (
+            <>
+              <p className="text-green-500 font-semibold">Stack Tecnológica</p>
+              <span className="text-[0.75rem] relative top-[-4px]">
+                {project.stack}
+              </span>
+            </>
+          )}
+
           <p className="text-green-500 font-semibold">Link do projeto</p>
           <span className="text-[0.75rem] relative top-[-4px]">
-            <Link href={project?.link ? project?.link : '#'} target="_blank">
+            <Link
+              href={project?.link ? project?.link : '#'}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`Visitar projeto ${project?.name}`}
+            >
               {project?.link}
             </Link>
           </span>
 
           <p className="text-green-500 font-semibold">Repositório</p>
           <span className="text-[0.75rem] relative top-[-4px]">
-            <Link href={project.repo ? project.repo : '#'}>
+            <Link
+              href={project.repo ? project.repo : '#'}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`Ver código fonte do projeto ${project?.name}`}
+            >
               {project?.repoName}
             </Link>
           </span>

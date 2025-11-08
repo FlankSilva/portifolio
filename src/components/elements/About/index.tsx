@@ -3,8 +3,6 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 
-import quoteLeft from "@/assets/quote-left.png";
-import quoteRight from "@/assets/quote-right.png";
 import profileCicle from "@/assets/profile-circle.png";
 import profile from "@/assets/flank.webp";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
@@ -49,39 +47,22 @@ export function About() {
             variants={getAnimationVariants(slideLeft)}
             className="flex flex-col"
           >
-            <p className="text-red-400 font-bold mb-4 text-xl">CITAÇÃO</p>
-            <p className="flex xl:text-sm">
-              <Image
-                src={quoteLeft}
-                alt=""
-                width={28}
-                height={24}
-                style={{
-                  width: "28px",
-                  height: "24px",
-                  position: "relative",
-                  left: "-7px",
-                }}
-              />
-              A programação web é como um universo infinito de possibilidades,
-              onde cada linha de código pode transformar ideias em realidade,
-              conectando pessoas, informações e experiências de forma dinâmica e
-              interativa.
-              <Image
-                src={quoteRight}
-                alt=""
-                width={28}
-                height={23}
-                style={{
-                  width: "28px",
-                  height: "23px",
-                  marginTop: "auto",
-                }}
-              />
+            <p className="text-red-400 font-bold mb-4 text-xl">EXPERIÊNCIA</p>
+            <p className="xl:text-sm">
+              Iniciei minha jornada na programação em 2016, quando percebi o
+              potencial da tecnologia para resolver problemas reais. Desde
+              então, venho desenvolvendo soluções Web e Mobile com foco em
+              performance, escalabilidade e experiência do usuário.
             </p>
-
             <p className="text-red-400 font-bold mt-8">OCUPAÇÕES ATUAIS</p>
-            <p>Full Stack Developer</p>
+            <p>Senior Full Stack Developer</p>
+            <p className="text-red-400 font-bold mt-4">TRAJETÓRIA</p>
+            <p className="xl:text-sm mt-2">
+              Atuei como Analista Sênior na <strong>CENÁRIO CAPITAL</strong> (4
+              anos) e na <strong>HDN Digital</strong> (1,5 anos), liderando
+              refatorações completas e otimizando a performance de sistemas
+              críticos.
+            </p>
           </motion.div>
           <motion.div
             variants={getAnimationVariants(createDelayedAnimation(0.2, scale))}
@@ -89,13 +70,13 @@ export function About() {
           >
             <Image
               src={profileCicle}
-              alt="profile circle"
+              alt="Círculo decorativo do perfil de Flank Silva"
               width={260}
               height={260}
             />
             <Image
               src={profile}
-              alt="Flank Silva"
+              alt="Foto de perfil de Flank Silva, Senior Full Stack Developer"
               width={250}
               height={250}
               style={{
@@ -112,16 +93,17 @@ export function About() {
           >
             <h2 className="text-red-400 text-6xl font-bold mb-4">Olá,</h2>
             <p className="xl:text-sm">
-              Sou Flank Silva, entusiasta das melhores tecnologias de
-              desenvolvimento web, mobile e API. <br />
-              Atualmente focado em aplicações(Node.js, ReactJS e React Native).
-              <br />
-              Iniciei no mundo da programação em 2015, quando tive o primeiro
-              contato com Excel VBA. Desde então fiquei apaixonado pelo poder
-              que os algoritmos proporciona as pessoas.
-              <br /> Acredito que o sucesso está relacionado em trazer soluções
-              para as pessoas de forma que torne nossas vidas mais produtivas.
-              🚀
+              Sou Flank Silva, Senior Full Stack Developer especializado em
+              React, React Native, Next.js e Node.js.
+            </p>
+            <p className="xl:text-sm mt-4">
+              Tenho sólida experiência no desenvolvimento e refatoração de
+              aplicações complexas, sempre buscando entregar código limpo,
+              sustentável e fácil de manter.
+            </p>
+            <p className="xl:text-sm mt-4">
+              Acredito que bons resultados vêm de tranquilidade, foco e
+              responsabilidade — princípios que aplico em tudo o que faço.
             </p>
           </motion.div>
         </motion.div>

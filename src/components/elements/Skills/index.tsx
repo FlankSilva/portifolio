@@ -1,11 +1,10 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { useState } from 'react'
 
 import { Box } from '../Box'
-import { Button } from '../Form'
 import { Title } from '../Title'
-import { getAnimationVariants, staggerContainer, staggerItem } from '@/utils/animations'
 import { CardSkill, SkillProps } from './CardSkill'
 
 export interface SkillsProps {
@@ -19,44 +18,67 @@ export function Skills({
   handleNextSkills,
   hiddenNextButton,
 }: SkillsProps) {
+  const [isPaused, setIsPaused] = useState(false)
+
+  // Cria múltiplas cópias para garantir continuidade perfeita
+  // Com 3 cópias, quando move 1/3, a segunda cópia fica exatamente onde a primeira estava
+  const duplicatedSkills = [...skills, ...skills, ...skills]
+
+  if (!skills || skills.length === 0) {
+    return (
+      <section id="skills" className="flex flex-col items-center pb-[4rem]">
+        <Title title="Minhas Skills" />
+        <Box>
+          <p className="text-zinc-400">Carregando skills...</p>
+        </Box>
+      </section>
+    )
+  }
+
   return (
-    <section id="skills" className="flex flex-col items-center pb-[4rem] ">
+    <section id="skills" className="flex flex-col items-center pb-[4rem]">
       <Title title="Minhas Skills" />
 
       <Box>
-        <div className="flex flex-col items-center">
-          <motion.section
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.2 }}
-            variants={getAnimationVariants(staggerContainer)}
-            className="flex flex-wrap gap-7 lg:gap-5 justify-between px-9 lg:px-0"
+        <div className="flex flex-col items-center w-full overflow-hidden">
+          <div
+            className="w-full overflow-hidden relative"
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}
           >
-            {skills.map((item, index) => (
-              <motion.div
-                key={`${item.title}-${index}`}
-                variants={getAnimationVariants(staggerItem)}
-              >
-                <CardSkill
-                  title={item.title}
-                  description={item.description}
-                  icon={item.icon}
-                />
-              </motion.div>
-            ))}
-          </motion.section>
-          {!hiddenNextButton && (
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
-              className="mt-4"
+              className="flex gap-8 md:gap-12 lg:gap-16"
+              style={{ 
+                width: 'max-content',
+                willChange: 'transform'
+              }}
+              animate={isPaused ? {} : {
+                x: ['0%', '-33.333%'],
+              }}
+              transition={{
+                x: {
+                  repeat: Infinity,
+                  repeatType: 'loop',
+                  duration: 30,
+                  ease: 'linear',
+                },
+              }}
             >
-              <Button onClick={() => handleNextSkills()}>
-                <span className="text-sm font-bold">Mais Skills</span>
-              </Button>
+              {duplicatedSkills.map((item, index) => (
+                <div
+                  key={`${item.title}-${index}`}
+                  className="flex-shrink-0 w-24 md:w-32 lg:w-36"
+                >
+                  <CardSkill
+                    title={item.title}
+                    description={item.description}
+                    icon={item.icon}
+                    url={item.url}
+                  />
+                </div>
+              ))}
             </motion.div>
-          )}
+          </div>
         </div>
       </Box>
     </section>
