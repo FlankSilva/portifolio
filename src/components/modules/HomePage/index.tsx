@@ -6,7 +6,6 @@ import { Drawer } from '@/components/elements/Drawer'
 import { Header } from '@/components/elements/Header'
 
 import { skills } from '@/mock/skills'
-import { dataProjects as data } from '@/mock'
 
 import { Presentation } from '@/components/elements/Presentation'
 import { Skills } from '@/components/elements/Skills'
@@ -20,6 +19,8 @@ export function HomePage() {
   const [hiddenNextButton, setHiddenNextButton] = useState(false)
   const [selectItemDataProject, setSelectItemDataProject] = useState(0)
   const [isPaused, setIsPaused] = useState(false)
+  const [dataProjects, setDataProjects] = useState<any[]>([])
+  const [projectsLoading, setProjectsLoading] = useState(true)
 
   // Memoiza a lista de skills para evitar recálculos
   const allSkills = useMemo(() => skills({ size: '100' }), [])
@@ -32,8 +33,41 @@ export function HomePage() {
     }
   }, [allSkills])
 
+  // Carrega projetos da API
   useEffect(() => {
-    const qtdProject = data.length
+    const fetchProjects = async () => {
+      try {
+        const response = await fetch('/api/projects/public')
+        const data = await response.json()
+
+        if (data.projects && data.projects.length > 0) {
+          // Converter formato da API para o formato esperado pelo componente
+          const formattedProjects = data.projects.map((project: any) => ({
+            id: project.id,
+            name: project.name,
+            description: project.description,
+            stack: project.stack,
+            link: project.link,
+            repoName: project.repoName,
+            repo: project.repo,
+            image: project.image,
+          }))
+          setDataProjects(formattedProjects)
+        }
+      } catch (error) {
+        console.error('Erro ao carregar projetos:', error)
+      } finally {
+        setProjectsLoading(false)
+      }
+    }
+
+    fetchProjects()
+  }, [])
+
+  useEffect(() => {
+    if (dataProjects.length === 0) return
+
+    const qtdProject = dataProjects.length
     let interval: NodeJS.Timeout | undefined
 
     if (!isPaused) {
@@ -52,7 +86,7 @@ export function HomePage() {
         clearInterval(interval)
       }
     }
-  }, [isPaused])
+  }, [isPaused, dataProjects.length])
 
   const handleSetIndexProject = useCallback((index: number) => {
     setSelectItemDataProject(index - 1)
@@ -95,13 +129,15 @@ export function HomePage() {
           handleNextSkills={handleNextSkills}
           hiddenNextButton={hiddenNextButton}
         />
-        <Projects
-          setIndexProject={handleSetIndexProject}
-          indexProject={selectItemDataProject}
-          dataProjects={data}
-          pauseInterval={pauseInterval}
-          resumeInterval={resumeInterval}
-        />
+        {!projectsLoading && dataProjects.length > 0 && (
+          <Projects
+            setIndexProject={handleSetIndexProject}
+            indexProject={selectItemDataProject}
+            dataProjects={dataProjects}
+            pauseInterval={pauseInterval}
+            resumeInterval={resumeInterval}
+          />
+        )}
         <Contact />
         <Footer />
       </main>

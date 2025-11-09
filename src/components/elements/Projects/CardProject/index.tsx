@@ -79,11 +79,16 @@ export function CardProject({
             className="block"
           >
             <Image
-              src={project?.image ? project.image : defaultImag}
+              src={
+                project?.image && typeof project.image === 'string'
+                  ? project.image
+                  : project?.image || defaultImag
+              }
               alt={`Preview do projeto ${project?.name || 'projeto'}`}
               width={857}
               height={483}
               className="w-[600px] h-auto rounded object-contain transition-opacity group-hover:opacity-80"
+              unoptimized={typeof project?.image === 'string' && project.image.startsWith('http')}
             />
             <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black-900 bg-opacity-40 rounded">
               <ArrowSquareOut size={32} weight="bold" className="text-green-500" />
