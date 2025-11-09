@@ -1,19 +1,19 @@
 import { WarningCircle } from 'phosphor-react'
 import { TextareaHTMLAttributes } from 'react'
-import { FieldValues, UseFormRegister } from 'react-hook-form'
+import { FieldValues, UseFormRegister, Path } from 'react-hook-form'
 
-interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
-  register: UseFormRegister<FieldValues>
-  name: string
+interface TextAreaProps<T extends FieldValues = FieldValues> extends TextareaHTMLAttributes<HTMLTextAreaElement> {
+  register: UseFormRegister<T>
+  name: Path<T>
   messageError?: any
 }
 
-export function TextArea({
+export function TextArea<T extends FieldValues = FieldValues>({
   name,
   register,
   messageError,
   ...rest
-}: TextAreaProps) {
+}: TextAreaProps<T>) {
   return (
     <div className="relative flex">
       <textarea

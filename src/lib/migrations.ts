@@ -24,9 +24,25 @@ export async function runMigrations() {
       repo_name TEXT NOT NULL,
       repo TEXT NOT NULL,
       image_url TEXT,
+      display_order INTEGER DEFAULT 0,
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
       updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
     );
+  `)
+
+  // Adicionar coluna display_order se não existir (migration)
+  try {
+    db.exec('ALTER TABLE projects ADD COLUMN display_order INTEGER DEFAULT 0')
+    console.log('✅ Coluna display_order adicionada')
+  } catch (error) {
+    // Coluna já existe, ignorar erro
+  }
+
+  // Atualizar display_order dos projetos existentes baseado no id
+  db.exec(`
+    UPDATE projects 
+    SET display_order = id 
+    WHERE display_order IS NULL OR display_order = 0
   `)
 
   // Verificar se já existe usuário admin
@@ -69,7 +85,4 @@ export async function runMigrations() {
 
   console.log('✅ Migrations executadas com sucesso')
 }
-
-// Exportar função para ser chamada externamente
-export { runMigrations }
 

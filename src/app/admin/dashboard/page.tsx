@@ -16,6 +16,7 @@ interface Project {
   repo_name: string;
   repo: string;
   image_url: string | null;
+  display_order: number;
   created_at: string;
   updated_at: string;
 }
@@ -117,7 +118,11 @@ export default function DashboardPage() {
               <p className="text-red-400">{error}</p>
             </div>
           ) : (
-            <ProjectList projects={projects} onDelete={handleDelete} />
+            <ProjectList
+              projects={projects}
+              onDelete={handleDelete}
+              onReorder={fetchProjects}
+            />
           )}
         </main>
       </div>

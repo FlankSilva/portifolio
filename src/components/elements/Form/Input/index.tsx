@@ -1,14 +1,14 @@
 import { InputHTMLAttributes } from 'react'
-import { FieldValues, UseFormRegister } from 'react-hook-form'
+import { FieldValues, UseFormRegister, Path } from 'react-hook-form'
 import { WarningCircle } from 'phosphor-react'
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  register: UseFormRegister<FieldValues>
-  name: string
+interface InputProps<T extends FieldValues = FieldValues> extends InputHTMLAttributes<HTMLInputElement> {
+  register: UseFormRegister<T>
+  name: Path<T>
   messageError?: any
 }
 
-export function Input({ name, register, messageError, ...rest }: InputProps) {
+export function Input<T extends FieldValues = FieldValues>({ name, register, messageError, ...rest }: InputProps<T>) {
   return (
     <div className="relative flex items-center">
       <input

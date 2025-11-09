@@ -5,7 +5,7 @@ import db from '@/lib/db'
 export async function GET() {
   try {
     const projects = db
-      .prepare('SELECT * FROM projects ORDER BY created_at DESC')
+      .prepare('SELECT * FROM projects ORDER BY display_order ASC, id ASC')
       .all() as Array<{
       id: number
       name: string

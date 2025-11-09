@@ -8,12 +8,14 @@ const projectSchema = z.object({
   description: z.string().min(1, 'Descrição é obrigatória'),
   stack: z.string().min(1, 'Stack é obrigatória'),
   link: z.string().url('Link deve ser uma URL válida'),
-  repoName: z.string().min(1, 'Nome do repositório é obrigatório'),
+  repoName: z.string().optional().or(z.literal('')),
   repo: z
     .string()
-    .min(1, 'Repositório é obrigatório')
-    .refine((val) => val === '#' || val.startsWith('http'), {
-      message: 'Repositório deve ser uma URL válida ou # para privado',
+    .optional()
+    .or(z.literal(''))
+    .or(z.literal('#'))
+    .refine((val) => !val || val === '#' || val.startsWith('http'), {
+      message: 'Repositório deve ser uma URL válida, # para privado ou vazio',
     }),
   imageUrl: z
     .string()
@@ -34,7 +36,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Não autorizado' }, { status: 401 })
     }
 
-    const projects = db.prepare('SELECT * FROM projects ORDER BY created_at DESC').all()
+    const projects = db.prepare('SELECT * FROM projects ORDER BY display_order ASC, id ASC').all()
 
     return NextResponse.json({ projects })
   } catch (error) {
@@ -55,11 +57,15 @@ export async function POST(request: NextRequest) {
     const body = await request.json()
     const { name, description, stack, link, repoName, repo, imageUrl } = projectSchema.parse(body)
 
+    // Pegar o maior display_order e adicionar 1
+    const maxOrder = db.prepare('SELECT MAX(display_order) as max_order FROM projects').get() as { max_order: number | null }
+    const newOrder = (maxOrder.max_order ?? 0) + 1
+
     const result = db
       .prepare(
-        'INSERT INTO projects (name, description, stack, link, repo_name, repo, image_url) VALUES (?, ?, ?, ?, ?, ?, ?)'
+        'INSERT INTO projects (name, description, stack, link, repo_name, repo, image_url, display_order) VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
       )
-      .run(name, description, stack, link, repoName, repo, imageUrl || null)
+      .run(name, description, stack, link, repoName || '', repo || '', imageUrl || null, newOrder)
 
     const project = db.prepare('SELECT * FROM projects WHERE id = ?').get(result.lastInsertRowid)
 

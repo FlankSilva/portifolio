@@ -8,12 +8,14 @@ const projectSchema = z.object({
   description: z.string().min(1, 'Descrição é obrigatória'),
   stack: z.string().min(1, 'Stack é obrigatória'),
   link: z.string().url('Link deve ser uma URL válida'),
-  repoName: z.string().min(1, 'Nome do repositório é obrigatório'),
+  repoName: z.string().optional().or(z.literal('')),
   repo: z
     .string()
-    .min(1, 'Repositório é obrigatório')
-    .refine((val) => val === '#' || val.startsWith('http'), {
-      message: 'Repositório deve ser uma URL válida ou # para privado',
+    .optional()
+    .or(z.literal(''))
+    .or(z.literal('#'))
+    .refine((val) => !val || val === '#' || val.startsWith('http'), {
+      message: 'Repositório deve ser uma URL válida, # para privado ou vazio',
     }),
   imageUrl: z
     .string()
@@ -71,7 +73,7 @@ export async function PUT(
     // Atualizar projeto
     db.prepare(
       'UPDATE projects SET name = ?, description = ?, stack = ?, link = ?, repo_name = ?, repo = ?, image_url = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?'
-    ).run(name, description, stack, link, repoName, repo, imageUrl || null, Number(id))
+    ).run(name, description, stack, link, repoName || '', repo || '', imageUrl || null, Number(id))
 
     const project = db.prepare('SELECT * FROM projects WHERE id = ?').get(Number(id))
 

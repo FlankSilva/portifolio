@@ -15,12 +15,14 @@ const projectSchema = z.object({
   description: z.string().min(1, 'Descrição é obrigatória'),
   stack: z.string().min(1, 'Stack é obrigatória'),
   link: z.string().url('Link deve ser uma URL válida'),
-  repoName: z.string().min(1, 'Nome do repositório é obrigatório'),
+  repoName: z.string().optional().or(z.literal('')),
   repo: z
     .string()
-    .min(1, 'Repositório é obrigatório')
-    .refine((val) => val === '#' || val.startsWith('http'), {
-      message: 'Repositório deve ser uma URL válida ou # para privado',
+    .optional()
+    .or(z.literal(''))
+    .or(z.literal('#'))
+    .refine((val) => !val || val === '#' || val.startsWith('http'), {
+      message: 'Repositório deve ser uma URL válida, # para privado ou vazio',
     }),
 })
 
@@ -149,24 +151,41 @@ export function ProjectForm({ projectId, initialData }: ProjectFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6 w-full max-w-2xl">
-      <div className="flex flex-col gap-2">
-        <label htmlFor="name" className="text-green-500 font-semibold text-sm">
-          Nome do Projeto *
-        </label>
-        <Input
-          type="text"
-          id="name"
-          name="name"
-          register={register}
-          messageError={errors.name}
-          placeholder="Ex: Spotify Clone"
-        />
-        {errors.name && <span className="text-red-400 text-xs">{errors.name.message}</span>}
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6 w-full">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="flex flex-col gap-2">
+          <label htmlFor="name" className="text-zinc-150 font-medium text-sm">
+            Nome do Projeto *
+          </label>
+          <Input
+            type="text"
+            id="name"
+            name="name"
+            register={register}
+            messageError={errors.name}
+            placeholder="Ex: Spotify Clone"
+          />
+          {errors.name && <span className="text-red-400 text-xs mt-1">{errors.name.message}</span>}
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <label htmlFor="link" className="text-zinc-150 font-medium text-sm">
+            Link do Projeto *
+          </label>
+          <Input
+            type="url"
+            id="link"
+            name="link"
+            register={register}
+            messageError={errors.link}
+            placeholder="https://exemplo.com"
+          />
+          {errors.link && <span className="text-red-400 text-xs mt-1">{errors.link.message}</span>}
+        </div>
       </div>
 
       <div className="flex flex-col gap-2">
-        <label htmlFor="description" className="text-green-500 font-semibold text-sm">
+        <label htmlFor="description" className="text-zinc-150 font-medium text-sm">
           Descrição *
         </label>
         <TextArea
@@ -174,16 +193,16 @@ export function ProjectForm({ projectId, initialData }: ProjectFormProps) {
           name="description"
           register={register}
           messageError={errors.description}
-          placeholder="Descreva o projeto..."
-          rows={4}
+          placeholder="Descreva o projeto em detalhes..."
+          rows={5}
         />
         {errors.description && (
-          <span className="text-red-400 text-xs">{errors.description.message}</span>
+          <span className="text-red-400 text-xs mt-1">{errors.description.message}</span>
         )}
       </div>
 
       <div className="flex flex-col gap-2">
-        <label htmlFor="stack" className="text-green-500 font-semibold text-sm">
+        <label htmlFor="stack" className="text-zinc-150 font-medium text-sm">
           Stack Tecnológica *
         </label>
         <TextArea
@@ -194,89 +213,93 @@ export function ProjectForm({ projectId, initialData }: ProjectFormProps) {
           placeholder="Ex: Next.js, React, TypeScript, Tailwind CSS"
           rows={3}
         />
-        {errors.stack && <span className="text-red-400 text-xs">{errors.stack.message}</span>}
+        {errors.stack && <span className="text-red-400 text-xs mt-1">{errors.stack.message}</span>}
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="flex flex-col gap-2">
+          <label htmlFor="repoName" className="text-zinc-150 font-medium text-sm">
+            Nome do Repositório
+          </label>
+          <Input
+            type="text"
+            id="repoName"
+            name="repoName"
+            register={register}
+            messageError={errors.repoName}
+            placeholder="Ex: /FlankSilva/projeto ou Privado"
+          />
+          {errors.repoName && (
+            <span className="text-red-400 text-xs mt-1">{errors.repoName.message}</span>
+          )}
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <label htmlFor="repo" className="text-zinc-150 font-medium text-sm">
+            URL do Repositório
+          </label>
+          <Input
+            type="text"
+            id="repo"
+            name="repo"
+            register={register}
+            messageError={errors.repo}
+            placeholder="https://github.com/... ou # se for privado (opcional)"
+          />
+          {errors.repo && <span className="text-red-400 text-xs mt-1">{errors.repo.message}</span>}
+        </div>
       </div>
 
       <div className="flex flex-col gap-2">
-        <label htmlFor="link" className="text-green-500 font-semibold text-sm">
-          Link do Projeto *
-        </label>
-        <Input
-          type="url"
-          id="link"
-          name="link"
-          register={register}
-          messageError={errors.link}
-          placeholder="https://exemplo.com"
-        />
-        {errors.link && <span className="text-red-400 text-xs">{errors.link.message}</span>}
-      </div>
-
-      <div className="flex flex-col gap-2">
-        <label htmlFor="repoName" className="text-green-500 font-semibold text-sm">
-          Nome do Repositório *
-        </label>
-        <Input
-          type="text"
-          id="repoName"
-          name="repoName"
-          register={register}
-          messageError={errors.repoName}
-          placeholder="Ex: /FlankSilva/projeto ou Privado"
-        />
-        {errors.repoName && (
-          <span className="text-red-400 text-xs">{errors.repoName.message}</span>
-        )}
-      </div>
-
-      <div className="flex flex-col gap-2">
-        <label htmlFor="repo" className="text-green-500 font-semibold text-sm">
-          URL do Repositório *
-        </label>
-        <Input
-          type="url"
-          id="repo"
-          name="repo"
-          register={register}
-          messageError={errors.repo}
-          placeholder="https://github.com/... ou # se for privado"
-        />
-        {errors.repo && <span className="text-red-400 text-xs">{errors.repo.message}</span>}
-      </div>
-
-      <div className="flex flex-col gap-2">
-        <label htmlFor="image" className="text-green-500 font-semibold text-sm">
+        <label htmlFor="image" className="text-zinc-150 font-medium text-sm">
           Imagem do Projeto
         </label>
-        <input
-          type="file"
-          id="image"
-          accept="image/*"
-          onChange={handleImageChange}
-          className="w-full border border-green-500 rounded bg-black-600 text-zinc-150 py-1 px-3 outline-none text-sm"
-        />
-        {imagePreview && (
-          <div className="mt-2 relative w-full h-48 rounded overflow-hidden border border-zinc-200">
-            <Image
-              src={imagePreview}
-              alt="Preview"
-              fill
-              className="object-contain"
-            />
-          </div>
-        )}
+        <div className="flex flex-col gap-3">
+          <input
+            type="file"
+            id="image"
+            accept="image/*"
+            onChange={handleImageChange}
+            className="w-full border border-green-500 rounded bg-black-600 text-zinc-150 py-2 px-3 outline-none text-sm file:mr-4 file:py-1 file:px-3 file:rounded file:border-0 file:bg-green-500 file:text-white file:cursor-pointer hover:file:bg-green-300 transition-colors"
+          />
+          {uploadingImage && (
+            <div className="flex items-center gap-2 text-zinc-200 text-sm">
+              <div className="inline-block animate-spin rounded-full h-4 w-4 border-b-2 border-green-500"></div>
+              <span>Fazendo upload da imagem...</span>
+            </div>
+          )}
+          {imagePreview && (
+            <div className="relative w-full h-64 rounded-lg overflow-hidden border border-zinc-200 bg-black-900">
+              <Image
+                src={imagePreview}
+                alt="Preview"
+                fill
+                className="object-contain"
+                unoptimized={imagePreview.startsWith('http')}
+              />
+            </div>
+          )}
+        </div>
       </div>
 
-      {error && <span className="text-red-400 text-xs">{error}</span>}
+      {error && (
+        <div className="bg-red-400 bg-opacity-10 border border-red-400 rounded-lg p-3">
+          <span className="text-red-400 text-sm">{error}</span>
+        </div>
+      )}
 
-      <div className="flex gap-4">
-        <Button type="submit" isLoading={isLoading || uploadingImage}>
+      <div className="flex gap-4 pt-4 border-t border-zinc-200">
+        <Button
+          type="submit"
+          isLoading={isLoading || uploadingImage}
+          className="flex-1 py-3"
+        >
           {projectId ? 'Atualizar' : 'Criar'} Projeto
         </Button>
         <button
           type="button"
           onClick={() => router.push('/admin/dashboard')}
-          className="border border-zinc-200 py-1 px-4 rounded hover:bg-black-800 transition-all duration-300"
+          className="border border-zinc-200 py-2 px-6 rounded hover:bg-black-800 transition-all duration-300 text-zinc-200 font-medium"
         >
           Cancelar
         </button>
