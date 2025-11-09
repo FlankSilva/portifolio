@@ -22,19 +22,19 @@ export const listmenu = [
   {
     title: 'Habilidades',
     id: 'skills',
-    href: undefined,
+    href: '/habilidades',
     icon: <GraduationCap size={20} />,
   },
   {
     title: 'Projeto',
     id: 'project',
-    href: undefined,
+    href: '/projetos',
     icon: <PencilLine size={20} />,
   },
   {
     title: 'Contato',
     id: 'Contact',
-    href: undefined,
+    href: '/contato',
     icon: <AddressBook size={20} />,
   },
 ]

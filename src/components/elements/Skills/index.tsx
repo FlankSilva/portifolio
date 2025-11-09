@@ -12,12 +12,14 @@ export interface SkillsProps {
   skills: SkillProps[];
   hiddenNextButton: boolean;
   handleNextSkills: () => void;
+  hideTitle?: boolean;
 }
 
 export function Skills({
   skills,
   handleNextSkills,
   hiddenNextButton,
+  hideTitle = false,
 }: SkillsProps) {
   const [isPaused, setIsPaused] = useState(false);
   const x = useMotionValue(0);
@@ -126,12 +128,67 @@ export function Skills({
     };
   }, [isPaused, x]);
 
+  const skillsContent = (
+    <div className="flex flex-col items-center w-full overflow-hidden">
+      <div
+        ref={containerRef}
+        className="w-full overflow-hidden relative"
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
+      >
+        <motion.div
+          ref={itemsContainerRef}
+          className="flex gap-12 md:gap-16 lg:gap-20"
+          style={{
+            width: "max-content",
+            willChange: "transform",
+            x: xPercent,
+          }}
+        >
+          {duplicatedSkills.map((item, index) => (
+            <div
+              key={`${item.title}-${index}`}
+              className="flex-shrink-0 w-24 md:w-32 lg:w-36"
+            >
+              <CardSkill
+                title={item.title}
+                description={item.description}
+                icon={item.icon}
+                url={item.url}
+              />
+            </div>
+          ))}
+        </motion.div>
+        
+        {/* Botões de navegação */}
+        {isPaused && (
+          <>
+            <button
+              onClick={handlePrevious}
+              className="absolute left-2 top-1/2 -translate-y-1/2 bg-black-900 hover:bg-black-800 text-green-500 p-2 rounded-lg transition-colors z-10 shadow-lg"
+              aria-label="Anterior"
+            >
+              <CaretLeft size={24} weight="bold" />
+            </button>
+            <button
+              onClick={handleNext}
+              className="absolute right-2 top-1/2 -translate-y-1/2 bg-black-900 hover:bg-black-800 text-green-500 p-2 rounded-lg transition-colors z-10 shadow-lg"
+              aria-label="Próximo"
+            >
+              <CaretRight size={24} weight="bold" />
+            </button>
+          </>
+        )}
+      </div>
+    </div>
+  );
+
   if (!skills || skills.length === 0) {
     return (
       <section id="skills" className="flex flex-col items-center pb-[4rem]">
-        <Title title="Minhas Skills" />
+        {!hideTitle && <Title title="Minhas Skills" />}
         <Box>
-          <div className="flex flex-col items-center justify-center w-full px-9 lg:px-0 min-h-[200px]">
+          <div className="flex flex-col items-center justify-center w-full min-h-[200px]">
             <p className="text-zinc-400">Carregando skills...</p>
           </div>
         </Box>
@@ -141,62 +198,12 @@ export function Skills({
 
   return (
     <section id="skills" className="flex flex-col items-center pb-[4rem]">
-      <Title title="Minhas Skills" />
-
-      <Box>
-        <div className="flex flex-col items-center w-full overflow-hidden">
-          <div
-            ref={containerRef}
-            className="w-full overflow-hidden relative"
-            onMouseEnter={() => setIsPaused(true)}
-            onMouseLeave={() => setIsPaused(false)}
-          >
-            <motion.div
-              ref={itemsContainerRef}
-              className="flex gap-12 md:gap-16 lg:gap-20"
-              style={{
-                width: "max-content",
-                willChange: "transform",
-                x: xPercent,
-              }}
-            >
-              {duplicatedSkills.map((item, index) => (
-                <div
-                  key={`${item.title}-${index}`}
-                  className="flex-shrink-0 w-24 md:w-32 lg:w-36"
-                >
-                  <CardSkill
-                    title={item.title}
-                    description={item.description}
-                    icon={item.icon}
-                    url={item.url}
-                  />
-                </div>
-              ))}
-            </motion.div>
-            
-            {/* Botões de navegação */}
-            {isPaused && (
-              <>
-                <button
-                  onClick={handlePrevious}
-                  className="absolute left-2 top-1/2 -translate-y-1/2 bg-black-900 hover:bg-black-800 text-green-500 p-2 rounded-lg transition-colors z-10 shadow-lg"
-                  aria-label="Anterior"
-                >
-                  <CaretLeft size={24} weight="bold" />
-                </button>
-                <button
-                  onClick={handleNext}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 bg-black-900 hover:bg-black-800 text-green-500 p-2 rounded-lg transition-colors z-10 shadow-lg"
-                  aria-label="Próximo"
-                >
-                  <CaretRight size={24} weight="bold" />
-                </button>
-              </>
-            )}
-          </div>
-        </div>
-      </Box>
+      {!hideTitle && <Title title="Minhas Skills" />}
+      {hideTitle ? (
+        skillsContent
+      ) : (
+        <Box>{skillsContent}</Box>
+      )}
     </section>
   );
 }

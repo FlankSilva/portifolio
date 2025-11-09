@@ -22,7 +22,7 @@ export function Footer() {
       initial="hidden"
       animate={isVisible ? "visible" : "hidden"}
       variants={getAnimationVariants(fadeIn)}
-      className="bg-black-950 pt-10 px-4 lg:px-0 flex justify-center"
+      className="bg-black-950 pt-10 flex justify-center"
     >
       <Box>
         <div className="w-full flex flex-col">

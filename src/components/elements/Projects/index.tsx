@@ -20,6 +20,8 @@ interface ProjectsProps {
   dataProjects: ProjectData[]
   pauseInterval: () => void
   resumeInterval: () => void
+  showOnMobile?: boolean
+  hideTitle?: boolean
 }
 
 export function Projects({
@@ -28,17 +30,19 @@ export function Projects({
   dataProjects,
   pauseInterval,
   resumeInterval,
+  showOnMobile = false,
+  hideTitle = false,
 }: ProjectsProps) {
   return (
     <section
       id="project"
-      className="hidden md:flex flex-col items-center justify-center  bg-black-900 "
+      className={`${showOnMobile ? 'flex' : 'hidden md:flex'} flex-col items-center justify-center bg-black-900`}
     >
-      <Title title="Projetos" />
+      {!hideTitle && <Title title="Projetos" />}
 
       <Box>
         <div className="flex justify-center border-b-[1px] border-black-500 pb-[4rem] w-full">
-          <div className="w-full px-9 lg:px-0 flex flex-col items-center gap-4">
+          <div className="w-full flex flex-col items-center gap-4">
             <CardProject
               project={dataProjects[indexProject]}
               pauseInterval={pauseInterval}

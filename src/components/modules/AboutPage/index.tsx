@@ -26,54 +26,56 @@ export function AboutPage() {
       <main className="w-full flex-1">
         {/* Seção Hero com foto */}
         <section className="flex flex-col items-center bg-black-950 pt-[8rem] md:pb-[2rem]">
-          <div className="px-9 lg:px-0 flex flex-col items-center text-zinc-100">
-            <motion.div
-              initial="hidden"
-              animate="visible"
-              variants={getAnimationVariants({
-                hidden: { opacity: 0 },
-                visible: {
-                  opacity: 1,
-                  transition: {
-                    staggerChildren: 0.2,
-                    delayChildren: 0.1,
+          <Box>
+            <div className="flex flex-col items-center text-zinc-100">
+              <motion.div
+                initial="hidden"
+                animate="visible"
+                variants={getAnimationVariants({
+                  hidden: { opacity: 0 },
+                  visible: {
+                    opacity: 1,
+                    transition: {
+                      staggerChildren: 0.2,
+                      delayChildren: 0.1,
+                    },
                   },
-                },
-              })}
-              className="flex flex-row items-center gap-2 md:gap-8 lg:w-[80%]"
-            >
-              <motion.div
-                variants={getAnimationVariants(scale)}
-                className="flex justify-center items-center relative"
+                })}
+                className="flex flex-row items-center gap-2 md:gap-8 lg:w-[80%]"
               >
-                <Image
-                  src={profileCicle}
-                  alt="Círculo decorativo do perfil de Flank Silva"
-                  width={260}
-                  height={260}
-                  className="w-[150px] h-[150px] md:w-[260px] md:h-[260px]"
-                />
-                <Image
-                  src={profile}
-                  alt="Foto de perfil de Flank Silva, Senior Full Stack Developer"
-                  width={250}
-                  height={250}
-                  className="absolute rounded-full w-[130px] h-[130px] md:w-[180px] md:h-[180px]"
-                />
+                <motion.div
+                  variants={getAnimationVariants(scale)}
+                  className="flex justify-center items-center relative"
+                >
+                  <Image
+                    src={profileCicle}
+                    alt="Círculo decorativo do perfil de Flank Silva"
+                    width={260}
+                    height={260}
+                    className="w-[150px] h-[150px] md:w-[260px] md:h-[260px]"
+                  />
+                  <Image
+                    src={profile}
+                    alt="Foto de perfil de Flank Silva, Senior Full Stack Developer"
+                    width={250}
+                    height={250}
+                    className="absolute rounded-full w-[130px] h-[130px] md:w-[180px] md:h-[180px]"
+                  />
+                </motion.div>
+                <motion.div
+                  variants={getAnimationVariants(slideLeft)}
+                  className="text-center flex-1"
+                >
+                  <h1 className="text-red-400 text-4xl md:text-6xl font-bold mb-4">
+                    Olá,
+                  </h1>
+                  <p className="md:text-xl lg:text-2xl">
+                    Sou Flank Silva, Senior Full Stack Developer
+                  </p>
+                </motion.div>
               </motion.div>
-              <motion.div
-                variants={getAnimationVariants(slideLeft)}
-                className="text-center flex-1"
-              >
-                <h1 className="text-red-400 text-4xl md:text-6xl font-bold mb-4">
-                  Olá,
-                </h1>
-                <p className="md:text-xl lg:text-2xl">
-                  Sou Flank Silva, Senior Full Stack Developer
-                </p>
-              </motion.div>
-            </motion.div>
-          </div>
+            </div>
+          </Box>
         </section>
 
         {/* Conteúdo Principal */}
@@ -86,7 +88,7 @@ export function AboutPage() {
               initial="hidden"
               animate={isVisibleContent ? "visible" : "hidden"}
               variants={getAnimationVariants(slideLeft)}
-              className="w-full max-w-3xl mx-auto px-4 lg:px-0"
+              className="w-full max-w-6xl mx-auto"
             >
               <Title title="Sobre mim" />
               <div className="mt-8 space-y-6 text-zinc-100 text-base lg:text-lg leading-relaxed">

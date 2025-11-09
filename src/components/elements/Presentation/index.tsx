@@ -9,7 +9,7 @@ import { PresentationLogo } from './PresentationLogo'
 
 export function Presentation() {
   return (
-    <div className="w-full px-4 lg:px-0 flex flex-col items-center justify-center gap-3">
+    <div className="w-full flex flex-col items-center justify-center gap-3">
       <motion.div
         initial="hidden"
         animate="visible"
@@ -24,7 +24,7 @@ export function Presentation() {
         variants={getAnimationVariants(createDelayedAnimation(0.3, slideUp))}
       >
         <Image
-          className="w-[970px] px-4 lg:px-0"
+          className="w-[970px]"
           src={mcbookImg}
           width={970}
           alt="MacBook exibindo interface de desenvolvimento"

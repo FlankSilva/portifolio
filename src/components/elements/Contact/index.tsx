@@ -23,7 +23,11 @@ const whatsappMessage = encodeURIComponent(
   'Olá! Vi seu portfólio e gostaria de entrar em contato.'
 )
 
-export function Contact() {
+interface ContactProps {
+  hideTitle?: boolean
+}
+
+export function Contact({ hideTitle = false }: ContactProps) {
   const [isLoading, setIsLoading] = useState(false)
   const [showSuccess, setShowSuccess] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -152,14 +156,14 @@ export function Contact() {
         )}
       </AnimatePresence>
 
-      <Title title="Fale comigo" />
+      {!hideTitle && <Title title="Fale comigo" />}
 
       <Box>
         <motion.div
           initial="hidden"
           animate={isVisible ? 'visible' : 'hidden'}
           variants={getAnimationVariants(formItem)}
-          className="text-center mb-8 px-4 lg:px-0"
+          className="text-center mb-8"
         >
           <p className="text-zinc-100 text-lg">
             Interessado em conversar? Estou aberto a oportunidades{' '}
@@ -167,7 +171,7 @@ export function Contact() {
             que valorizem qualidade, autonomia e boas práticas.
           </p>
         </motion.div>
-        <div ref={ref} className="flex justify-around w-full flex-col md:flex-row md:items-start items-center px-4 lg:px-0">
+        <div ref={ref} className="flex justify-around w-full flex-col md:flex-row md:items-start items-center">
           <motion.form
             initial="hidden"
             animate={isVisible ? 'visible' : 'hidden'}
