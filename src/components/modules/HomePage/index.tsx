@@ -44,7 +44,7 @@ export function HomePage() {
           }
           return prevCount + 1
         })
-      }, 4000)
+      }, 8000)
     }
 
     return () => {

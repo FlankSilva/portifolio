@@ -3,7 +3,7 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import Image from 'next/image'
 import { useState } from 'react'
-import { CaretLeft, CaretRight } from 'phosphor-react'
+import { CaretLeft, CaretRight, GithubLogo, ArrowSquareOut } from 'phosphor-react'
 
 import { ProjectData } from '../index'
 
@@ -61,7 +61,7 @@ export function CardProject({
         exit="exit"
         variants={getAnimationVariants(pageTransition)}
         whileHover="hover"
-        className="border border-zinc-200 px-6 py-12 rounded w-full flex gap-7 min-h-[500px] relative"
+        className="border border-zinc-200 px-6 py-12 rounded w-full flex gap-7 h-[500px] relative"
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
@@ -69,22 +69,33 @@ export function CardProject({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2 }}
-          className="flex-shrink-0"
+          className="flex-shrink-0 relative group"
         >
-          <Image
-            src={project?.image ? project.image : defaultImag}
-            alt={`Preview do projeto ${project?.name || 'projeto'}`}
-            width={857}
-            height={483}
-            className="w-[600px] h-auto rounded object-contain"
-          />
+          <Link
+            href={project?.link ? project?.link : '#'}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`Visitar projeto ${project?.name}`}
+            className="block"
+          >
+            <Image
+              src={project?.image ? project.image : defaultImag}
+              alt={`Preview do projeto ${project?.name || 'projeto'}`}
+              width={857}
+              height={483}
+              className="w-[600px] h-auto rounded object-contain transition-opacity group-hover:opacity-80"
+            />
+            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black-900 bg-opacity-40 rounded">
+              <ArrowSquareOut size={32} weight="bold" className="text-green-500" />
+            </div>
+          </Link>
         </motion.div>
 
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.3 }}
-          className="flex flex-col gap-1"
+          className="flex flex-col gap-1 overflow-y-auto flex-1 pr-2 scrollbar-hide"
         >
           <p className="text-green-500 font-semibold text-[18px]">Nome do Projeto</p>
           <span className="text-[16px] relative top-[-4px]">
@@ -119,14 +130,23 @@ export function CardProject({
 
           <p className="text-green-500 font-semibold text-[18px]">Repositório</p>
           <span className="text-[16px] relative top-[-4px]">
-            <Link
-              href={project.repo ? project.repo : '#'}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`Ver código fonte do projeto ${project?.name}`}
-            >
-              {project?.repoName}
-            </Link>
+            {project?.repoName === 'Privado' ? (
+              <span className="flex items-center gap-2">
+                <GithubLogo size={18} weight="bold" />
+                {project?.repoName}
+              </span>
+            ) : (
+              <Link
+                href={project.repo ? project.repo : '#'}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`Ver código fonte do projeto ${project?.name}`}
+                className="flex items-center gap-2 hover:text-green-500 transition-colors"
+              >
+                <GithubLogo size={18} weight="bold" />
+                {project?.repoName}
+              </Link>
+            )}
           </span>
         </motion.div>
 
