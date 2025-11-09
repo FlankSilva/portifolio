@@ -10,7 +10,7 @@ export const listmenu = [
   {
     title: 'Home',
     id: 'home',
-    href: undefined,
+    href: '/',
     icon: <House size={20} />,
   },
   {

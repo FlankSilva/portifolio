@@ -1,5 +1,8 @@
+'use client'
+
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 
 import { useMenu } from '@/hooks/MenuContext'
 import { listmenu } from '@/mock'
@@ -8,8 +11,9 @@ import { useScrollToDiv } from '@/hooks/ScrollToDivContext'
 export function Drawer() {
   const [leftElement, setLeftElement] = useState('0px')
 
-  const { isOpenMenu } = useMenu()
+  const { isOpenMenu, activeBoxMenu } = useMenu()
   const { handleScrollToDiv } = useScrollToDiv()
+  const pathname = usePathname()
 
   useEffect(() => {
     if (isOpenMenu) {
@@ -32,9 +36,20 @@ export function Drawer() {
           return null
         }
 
+        // Verifica se o item está ativo
+        const isActiveRoute = item.href && item.href === pathname
+        const isActiveSection = !item.href && pathname === '/' && item.id === activeBoxMenu
+        const isActive = isActiveRoute || isActiveSection
+
         if (item.href) {
           return (
-            <Link key={item.id} href={item.href}>
+            <Link
+              key={item.id}
+              href={item.href}
+              className={`transition-colors ${
+                isActive ? 'text-green-500' : 'text-zinc-150'
+              }`}
+            >
               {item.icon}
             </Link>
           )
@@ -44,6 +59,9 @@ export function Drawer() {
           <button
             key={item.id}
             onClick={() => handleScrollToDiv(item.id)}
+            className={`transition-colors ${
+              isActive ? 'text-green-500' : 'text-zinc-150'
+            }`}
           >
             {item.icon}
           </button>

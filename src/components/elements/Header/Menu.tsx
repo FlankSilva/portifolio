@@ -1,4 +1,7 @@
+'use client'
+
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 
 import { listmenu } from '@/mock'
 
@@ -7,20 +10,27 @@ import { useScrollToDiv } from '@/hooks/ScrollToDivContext'
 
 export function Menu() {
   const { activeBoxMenu, handleSetActiveBoxMenu } = useMenu()
-
   const { handleScrollToDiv } = useScrollToDiv()
+  const pathname = usePathname()
 
   return (
     <ul className="hidden md:flex gap-4 items-center">
       {listmenu.map((item) => {
-        const activeItem = item.id === activeBoxMenu
+        // Verifica se o item está ativo baseado na rota atual
+        // Para links de página, verifica se a rota atual corresponde
+        // Para seções (sem href), verifica o estado ativo
+        const isActiveRoute = item.href && item.href === pathname
+        const isActiveSection = !item.href && pathname === '/' && item.id === activeBoxMenu
+        const isActive = isActiveRoute || isActiveSection
 
         if (item.href) {
           return (
             <li key={item.id}>
               <Link
-                className={`text-base ${
-                  activeItem ? 'text-zinc-50' : 'text-zinc-150'
+                className={`text-base transition-colors hover:text-green-500 ${
+                  isActive
+                    ? 'text-green-500 font-bold border-b-2 border-green-500 pb-1'
+                    : 'text-zinc-150'
                 }`}
                 href={item.href}
                 onClick={() => handleSetActiveBoxMenu(item.id)}
@@ -34,8 +44,10 @@ export function Menu() {
         return (
           <li key={item.id}>
             <a
-              className={`text-base ${
-                activeItem ? 'text-zinc-50' : 'text-zinc-150'
+              className={`text-base transition-colors hover:text-green-500 ${
+                isActive
+                  ? 'text-green-500 font-bold border-b-2 border-green-500 pb-1'
+                  : 'text-zinc-150'
               }`}
               href={`#${item.id}`}
               onClick={() => {
