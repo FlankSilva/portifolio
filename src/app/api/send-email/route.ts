@@ -8,6 +8,8 @@ interface EmailData {
   nome: string
   email: string
   telefone?: string
+  botScore?: number
+  fillTime?: number
 }
 
 const formatPhoneForWhatsApp = (phone: string | undefined): string => {
@@ -45,12 +47,58 @@ const emailText = (nome: string, email: string, telefone: string | undefined, su
 
 export async function POST(req: Request) {
   try {
-    const { subject, message, nome, email, telefone }: EmailData = await req.json()
+    const { subject, message, nome, email, telefone, botScore, fillTime }: EmailData = await req.json()
+
+    // Validação anti-bot
+    if (botScore !== undefined) {
+      // Rejeitar se score muito alto (>= 70)
+      if (botScore >= 70) {
+        console.warn('🚫 Bot detectado - Score:', botScore)
+        return NextResponse.json(
+          { error: 'Atividade suspeita detectada. Tente novamente.' },
+          { status: 403 }
+        )
+      }
+
+      // Rejeitar se preenchido muito rápido (< 2 segundos)
+      if (fillTime !== undefined && fillTime < 2) {
+        console.warn('🚫 Bot detectado - Preenchido muito rápido:', fillTime, 'segundos')
+        return NextResponse.json(
+          { error: 'Formulário preenchido muito rapidamente. Tente novamente.' },
+          { status: 403 }
+        )
+      }
+    }
 
     // Validar dados obrigatórios
     if (!subject || !message || !nome || !email) {
       return NextResponse.json(
         { error: 'Todos os campos são obrigatórios' },
+        { status: 400 }
+      )
+    }
+
+    // Limitar tamanho da mensagem (máximo 2000 caracteres)
+    if (message.length > 2000) {
+      return NextResponse.json(
+        { error: 'Mensagem muito longa. Máximo de 2000 caracteres.' },
+        { status: 400 }
+      )
+    }
+
+    // Limitar tamanho do assunto (máximo 200 caracteres)
+    if (subject.length > 200) {
+      return NextResponse.json(
+        { error: 'Assunto muito longo. Máximo de 200 caracteres.' },
+        { status: 400 }
+      )
+    }
+
+    // Validar formato de email mais rigoroso
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(email)) {
+      return NextResponse.json(
+        { error: 'Email inválido.' },
         { status: 400 }
       )
     }

@@ -15,6 +15,7 @@ import { YoutubeIcon } from '../Icons/YoutubeIcon'
 import { WhatsappIcon } from '../Icons/WhatsappIcon'
 import { DownloadIcon } from '../Icons/DownloadIcon'
 import { useScrollReveal } from '@/hooks/useScrollReveal'
+import { useBotDetection } from '@/hooks/useBotDetection'
 import { formStagger, formItem, getAnimationVariants, hoverRotate, hoverScale } from '@/utils/animations'
 import { formValidate } from '@/utils/validateForm'
 import { applyPhoneMask } from '@/utils/phoneMask'
@@ -33,6 +34,7 @@ export function Contact({ hideTitle = false }: ContactProps) {
   const [error, setError] = useState<string | null>(null)
   const [phoneValue, setPhoneValue] = useState('')
   const { ref, isVisible } = useScrollReveal({ threshold: 0.2 })
+  const { honeypotValue, setHoneypotValue, checkBot } = useBotDetection()
 
   const { register, handleSubmit, formState, resetField, reset, setValue } = useForm({
     resolver: zodResolver(formValidate),
@@ -43,13 +45,26 @@ export function Contact({ hideTitle = false }: ContactProps) {
     setError(null)
     setShowSuccess(false)
 
+    // Verificar se é bot
+    const botCheck = checkBot()
+    
+    if (botCheck.isBot) {
+      setIsLoading(false)
+      setError('Detectamos atividade suspeita. Por favor, tente novamente.')
+      return
+    }
+
     try {
       const response = await fetch('/api/send-email', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          ...data,
+          botScore: botCheck.botScore,
+          fillTime: botCheck.fillTime,
+        }),
       })
 
       const result = await response.json()
@@ -65,6 +80,7 @@ export function Contact({ hideTitle = false }: ContactProps) {
       setShowSuccess(true)
       reset() // Limpa todos os campos
       setPhoneValue('') // Limpa o valor da máscara
+      setHoneypotValue('') // Limpa o honeypot
 
       // Esconder mensagem após 5 segundos
       setTimeout(() => {
@@ -176,7 +192,7 @@ export function Contact({ hideTitle = false }: ContactProps) {
             initial="hidden"
             animate={isVisible ? 'visible' : 'hidden'}
             variants={getAnimationVariants(formStagger)}
-            className="flex flex-col gap-3 w-full max-w-[500px] md:max-w-[450px] lg:max-w-[450]"
+            className="flex flex-col gap-3 w-full max-w-[500px] md:max-w-[450px] lg:max-w-[450] relative"
           >
             <motion.div variants={getAnimationVariants(formItem)}>
               <Input
@@ -261,6 +277,23 @@ export function Contact({ hideTitle = false }: ContactProps) {
                 messageError={formState.errors.message?.message}
               />
             </motion.div>
+            {/* Campo Honeypot - invisível para usuários reais, mas bots preenchem */}
+            <input
+              type="text"
+              name="website"
+              style={{ 
+                position: 'absolute',
+                left: '-9999px',
+                opacity: 0,
+                pointerEvents: 'none',
+                tabIndex: -1,
+              }}
+              tabIndex={-1}
+              autoComplete="off"
+              value={honeypotValue}
+              onChange={(e) => setHoneypotValue(e.target.value)}
+              aria-hidden="true"
+            />
             <motion.div variants={getAnimationVariants(formItem)}>
               <Button onClick={handleSubmit(onSubmit)} isLoading={isLoading}>
                 Enviar
