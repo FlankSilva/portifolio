@@ -1,9 +1,10 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { CheckCircle, X, WarningCircle } from 'phosphor-react'
 
 import { Box } from '../Box'
 import { Button, Input, TextArea } from '../Form'
@@ -14,37 +15,54 @@ import { YoutubeIcon } from '../Icons/YoutubeIcon'
 import { useScrollReveal } from '@/hooks/useScrollReveal'
 import { formStagger, formItem, getAnimationVariants, hoverRotate, hoverScale } from '@/utils/animations'
 import { formValidate } from '@/utils/validateForm'
+import { applyPhoneMask } from '@/utils/phoneMask'
 
 export function Contact() {
   const [isLoading, setIsLoading] = useState(false)
+  const [showSuccess, setShowSuccess] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [phoneValue, setPhoneValue] = useState('')
   const { ref, isVisible } = useScrollReveal({ threshold: 0.2 })
 
-  const { register, handleSubmit, formState, resetField } = useForm({
+  const { register, handleSubmit, formState, resetField, reset, setValue } = useForm({
     resolver: zodResolver(formValidate),
   })
 
   const onSubmit = async (data: any) => {
     setIsLoading(true)
+    setError(null)
+    setShowSuccess(false)
 
     try {
-      fetch('/api/send-email', {
+      const response = await fetch('/api/send-email', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(data),
       })
-        .then((res) => res.json())
-        .then((res) => {
-          setIsLoading(false)
 
-          resetField('nome')
-          resetField('email')
-          resetField('subject')
-          resetField('message')
-        })
+      const result = await response.json()
+
+      if (!response.ok) {
+        setError(result.error || 'Erro ao enviar mensagem. Tente novamente.')
+        setIsLoading(false)
+        return
+      }
+
+      // Sucesso
+      setIsLoading(false)
+      setShowSuccess(true)
+      reset() // Limpa todos os campos
+      setPhoneValue('') // Limpa o valor da máscara
+
+      // Esconder mensagem após 5 segundos
+      setTimeout(() => {
+        setShowSuccess(false)
+      }, 5000)
     } catch (error) {
       setIsLoading(false)
+      setError('Erro ao conectar com o servidor. Tente novamente.')
       console.error('Erro ao enviar formulário:', error)
     }
   }
@@ -52,8 +70,82 @@ export function Contact() {
   return (
     <section
       id="Contact"
-      className="flex flex-col items-center justify-center pb-[4rem] bg-black-950"
+      className="flex flex-col items-center justify-center pb-[4rem] bg-black-950 relative"
     >
+      {/* Mensagem de Sucesso */}
+      <AnimatePresence>
+        {showSuccess && (
+          <motion.div
+            initial={{ opacity: 0, y: -20, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -20, scale: 0.9 }}
+            transition={{ duration: 0.3 }}
+            className="fixed top-20 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-md px-4"
+          >
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="bg-green-500 border-2 border-green-400 rounded-lg p-6 shadow-lg"
+            >
+              <div className="flex items-start gap-4">
+                <motion.div
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ delay: 0.1, type: 'spring', stiffness: 200 }}
+                >
+                  <CheckCircle size={32} weight="fill" className="text-white" />
+                </motion.div>
+                <div className="flex-1">
+                  <h3 className="text-white font-bold text-lg mb-1">
+                    Mensagem enviada com sucesso!
+                  </h3>
+                  <p className="text-white text-sm">
+                    Obrigado pelo contato. Responderei em breve.
+                  </p>
+                </div>
+                <button
+                  onClick={() => setShowSuccess(false)}
+                  className="text-white hover:text-green-200 transition-colors"
+                  aria-label="Fechar mensagem"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Mensagem de Erro */}
+      <AnimatePresence>
+        {error && (
+          <motion.div
+            initial={{ opacity: 0, y: -20, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -20, scale: 0.9 }}
+            transition={{ duration: 0.3 }}
+            className="fixed top-20 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-md px-4"
+          >
+            <motion.div className="bg-red-500 border-2 border-red-400 rounded-lg p-6 shadow-lg">
+              <div className="flex items-start gap-4">
+                <X size={32} weight="fill" className="text-white" />
+                <div className="flex-1">
+                  <h3 className="text-white font-bold text-lg mb-1">Erro ao enviar</h3>
+                  <p className="text-white text-sm">{error}</p>
+                </div>
+                <button
+                  onClick={() => setError(null)}
+                  className="text-white hover:text-red-200 transition-colors"
+                  aria-label="Fechar mensagem"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <Title title="Fale comigo" />
 
       <Box>
@@ -80,6 +172,8 @@ export function Contact() {
               <Input
                 name="nome"
                 register={register}
+                label="Nome"
+                inputId="contact-nome"
                 placeholder="Digite seu nome"
                 messageError={formState.errors.nome?.message}
               />
@@ -88,14 +182,61 @@ export function Contact() {
               <Input
                 name="email"
                 register={register}
+                label="E-mail"
+                inputId="contact-email"
                 placeholder="Digite seu e-mail"
                 messageError={formState.errors.email?.message}
               />
             </motion.div>
             <motion.div variants={getAnimationVariants(formItem)}>
+              <div className="flex flex-col gap-1">
+                <label htmlFor="contact-telefone" className="text-green-500 text-sm">
+                  WhatsApp <span className="text-zinc-400">(opcional)</span>
+                </label>
+                <div className="relative flex items-center">
+                  <input
+                    id="contact-telefone"
+                    type="text"
+                    name="telefone"
+                    placeholder="(00) 00000-0000"
+                    value={phoneValue}
+                    onChange={(e) => {
+                      const masked = applyPhoneMask(e.target.value)
+                      setPhoneValue(masked)
+                      setValue('telefone', masked, { shouldValidate: true })
+                    }}
+                    onBlur={() => {
+                      // Garante que o valor está registrado ao sair do campo
+                      setValue('telefone', phoneValue, { shouldValidate: true })
+                    }}
+                    className="
+                      w-full
+                      border-[1px] 
+                      rounded 
+                      bg-black-600
+                      text-zinc-150
+                      py-1
+                      px-3
+                      border-green-500
+                      outline-none 
+                      text-sm 
+                      placeholder:text-zinc-200
+                    "
+                  />
+                  {formState.errors.telefone?.message && (
+                    <div className="absolute left-[calc(100%_-_30px)]">
+                      <WarningCircle size={20} color="red" />
+                    </div>
+                  )}
+                </div>
+              </div>
+            </motion.div>
+            <motion.div variants={getAnimationVariants(formItem)}>
               <Input
                 name="subject"
                 register={register}
+                label="Assunto"
+                inputId="contact-subject"
                 placeholder="Digite o assunto"
                 messageError={formState.errors.subject?.message}
               />
@@ -104,7 +245,9 @@ export function Contact() {
               <TextArea
                 name="message"
                 register={register}
-                placeholder="Digite sua menssagem"
+                label="Mensagem"
+                textAreaId="contact-message"
+                placeholder="Digite sua mensagem"
                 messageError={formState.errors.message?.message}
               />
             </motion.div>

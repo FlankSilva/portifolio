@@ -7,26 +7,45 @@ interface EmailData {
   message: string
   nome: string
   email: string
+  telefone?: string
 }
 
-const emailHTML = (nome: string, email: string, subject: string, message: string) => `
-  <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-    <h2 style="color: #ef4444;">Novo contato do portfólio</h2>
-    <p><strong>Nome:</strong> ${nome}</p>
-    <p><strong>Email:</strong> ${email}</p>
-    <p><strong>Assunto:</strong> ${subject}</p>
-    <hr style="border: 1px solid #e5e7eb; margin: 20px 0;">
-    <p><strong>Mensagem:</strong></p>
-    <p style="white-space: pre-wrap;">${message}</p>
-  </div>
-`
+const formatPhoneForWhatsApp = (phone: string | undefined): string => {
+  if (!phone) return ''
+  // Remove tudo que não é número
+  return phone.replace(/\D/g, '')
+}
 
-const emailText = (nome: string, email: string, subject: string, message: string) =>
-  `Contato do portfólio\n\nNome: ${nome}\nEmail: ${email}\nAssunto: ${subject}\n\nMensagem:\n${message}`
+const emailHTML = (nome: string, email: string, telefone: string | undefined, subject: string, message: string) => {
+  const phoneFormatted = formatPhoneForWhatsApp(telefone)
+  const whatsappLink = phoneFormatted 
+    ? `https://api.whatsapp.com/send?phone=${phoneFormatted}`
+    : ''
+
+  return `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+      <h2 style="color: #ef4444;">Novo contato do portfólio</h2>
+      <p><strong>Nome:</strong> ${nome}</p>
+      <p><strong>Email:</strong> ${email}</p>
+      ${telefone 
+        ? `<p><strong>WhatsApp:</strong> ${whatsappLink 
+            ? `<a href="${whatsappLink}" target="_blank" style="color: #25D366; text-decoration: none;">${telefone}</a>` 
+            : telefone}</p>` 
+        : ''}
+      <p><strong>Assunto:</strong> ${subject}</p>
+      <hr style="border: 1px solid #e5e7eb; margin: 20px 0;">
+      <p><strong>Mensagem:</strong></p>
+      <p style="white-space: pre-wrap;">${message}</p>
+    </div>
+  `
+}
+
+const emailText = (nome: string, email: string, telefone: string | undefined, subject: string, message: string) =>
+  `Contato do portfólio\n\nNome: ${nome}\nEmail: ${email}${telefone ? `\nWhatsApp: ${telefone}` : ''}\nAssunto: ${subject}\n\nMensagem:\n${message}`
 
 export async function POST(req: Request) {
   try {
-    const { subject, message, nome, email }: EmailData = await req.json()
+    const { subject, message, nome, email, telefone }: EmailData = await req.json()
 
     // Validar dados obrigatórios
     if (!subject || !message || !nome || !email) {
@@ -48,8 +67,8 @@ export async function POST(req: Request) {
           ...mailOptions,
           subject: `Portfólio - ${subject}`,
           replyTo: email,
-          text: emailText(nome, email, subject, message),
-          html: emailHTML(nome, email, subject, message),
+          text: emailText(nome, email, telefone, subject, message),
+          html: emailHTML(nome, email, telefone, subject, message),
         })
 
         return NextResponse.json({ message: 'Email enviado com sucesso' })
@@ -72,8 +91,8 @@ export async function POST(req: Request) {
           to: resendConfig.to,
           replyTo: email,
           subject: `Portfólio - ${subject}`,
-          text: emailText(nome, email, subject, message),
-          html: emailHTML(nome, email, subject, message),
+          text: emailText(nome, email, telefone, subject, message),
+          html: emailHTML(nome, email, telefone, subject, message),
         })
 
         return NextResponse.json({ message: 'Email enviado com sucesso' })
