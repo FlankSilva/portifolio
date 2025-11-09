@@ -12,10 +12,16 @@ import { Title } from '../Title'
 import { LinkedInIcon } from '../Icons/LinkedInIcon'
 import { GitHubIcon } from '../Icons/GitHubIcon'
 import { YoutubeIcon } from '../Icons/YoutubeIcon'
+import { WhatsappIcon } from '../Icons/WhatsappIcon'
+import { DownloadIcon } from '../Icons/DownloadIcon'
 import { useScrollReveal } from '@/hooks/useScrollReveal'
 import { formStagger, formItem, getAnimationVariants, hoverRotate, hoverScale } from '@/utils/animations'
 import { formValidate } from '@/utils/validateForm'
 import { applyPhoneMask } from '@/utils/phoneMask'
+
+const whatsappMessage = encodeURIComponent(
+  'Olá! Vi seu portfólio e gostaria de entrar em contato.'
+)
 
 export function Contact() {
   const [isLoading, setIsLoading] = useState(false)
@@ -351,6 +357,51 @@ export function Contact() {
                   </motion.div>
                 </motion.div>
                 <span>/@devjunior6354</span>
+              </motion.a>
+              <motion.a
+                variants={getAnimationVariants(formItem)}
+                whileHover="hover"
+                href={`https://api.whatsapp.com/send?phone=5519992360973&text=${whatsappMessage}`}
+                className="flex gap-3 items-center"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Entrar em contato via WhatsApp com Flank Silva"
+              >
+                <motion.div
+                  whileHover="hover"
+                  variants={getAnimationVariants(hoverScale)}
+                  className="bg-[#25D366] rounded p-[1.5px]"
+                >
+                  <motion.div
+                    whileHover="hover"
+                    variants={getAnimationVariants(hoverRotate)}
+                  >
+                    <WhatsappIcon size={30} fill="#fff" />
+                  </motion.div>
+                </motion.div>
+                <span>(19) 99236-0973</span>
+              </motion.a>
+              <motion.a
+                variants={getAnimationVariants(formItem)}
+                whileHover="hover"
+                href="/curriculo_flank.pdf"
+                download="curriculo_flank.pdf"
+                className="flex gap-3 items-center"
+                aria-label="Baixar currículo de Flank Silva"
+              >
+                <motion.div
+                  whileHover="hover"
+                  variants={getAnimationVariants(hoverScale)}
+                  className="bg-zinc-50 rounded p-[1.5px]"
+                >
+                  <motion.div
+                    whileHover="hover"
+                    variants={getAnimationVariants(hoverRotate)}
+                  >
+                    <DownloadIcon size={30} fill="#000" />
+                  </motion.div>
+                </motion.div>
+                <span>Baixar currículo</span>
               </motion.a>
             </motion.div>
           </motion.div>
