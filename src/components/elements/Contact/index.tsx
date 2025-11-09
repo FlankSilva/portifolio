@@ -286,7 +286,6 @@ export function Contact({ hideTitle = false }: ContactProps) {
                 left: '-9999px',
                 opacity: 0,
                 pointerEvents: 'none',
-                tabIndex: -1,
               }}
               tabIndex={-1}
               autoComplete="off"
