@@ -31,13 +31,24 @@ if (typeof window === 'undefined' && !migrationsRun && process.env.DATABASE_URL)
 // Função para garantir que migrations foram executadas
 export async function ensureMigrations() {
   if (migrationsPromise) {
-    await migrationsPromise
-    migrationsPromise = null // Limpar após primeira execução
+    try {
+      await migrationsPromise
+      migrationsPromise = null // Limpar após primeira execução
+    } catch (error) {
+      console.error('Erro ao aguardar migrations:', error)
+      migrationsPromise = null // Limpar mesmo em caso de erro para não travar
+      throw error
+    }
   }
 }
 
 // Helper para executar queries
 export const query = async (text: string, params?: any[]) => {
+  // Verificar se DATABASE_URL está configurado
+  if (!process.env.DATABASE_URL) {
+    throw new Error('DATABASE_URL não está configurado. Configure a variável de ambiente DATABASE_URL.')
+  }
+
   // Garantir que migrations foram executadas antes de fazer queries
   await ensureMigrations()
   

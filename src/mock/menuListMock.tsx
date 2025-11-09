@@ -16,7 +16,7 @@ export const listmenu = [
   {
     title: 'Quem sou',
     id: 'about',
-    href: undefined,
+    href: '/sobre',
     icon: <UserList size={20} />,
   },
   {

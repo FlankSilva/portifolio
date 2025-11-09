@@ -2,8 +2,15 @@ import 'dotenv/config'
 import { z } from 'zod'
 
 const envSchema = z.object({
-  USER_EMAIL: z.string(),
-  USER_EMAIL_PASS: z.string(),
+  // Email - Resend (recomendado) ou Gmail SMTP
+  RESEND_API_KEY: z.string().optional(),
+  RESEND_FROM_EMAIL: z.string().optional(), // Ex: onboarding@resend.dev ou seu domínio verificado
+  RESEND_TO_EMAIL: z.string().optional(), // Email que receberá os contatos
+  
+  // Gmail SMTP (alternativa)
+  USER_EMAIL: z.string().optional(),
+  USER_EMAIL_PASS: z.string().optional(),
+  
   CLOUDINARY_CLOUD_NAME: z.string().optional(),
   CLOUDINARY_API_KEY: z.string().optional(),
   CLOUDINARY_API_SECRET: z.string().optional(),
@@ -24,6 +31,9 @@ if (_env.success === false) {
 }
 
 export const env = _env.success ? _env.data : {
+  RESEND_API_KEY: process.env.RESEND_API_KEY || '',
+  RESEND_FROM_EMAIL: process.env.RESEND_FROM_EMAIL || '',
+  RESEND_TO_EMAIL: process.env.RESEND_TO_EMAIL || '',
   USER_EMAIL: process.env.USER_EMAIL || '',
   USER_EMAIL_PASS: process.env.USER_EMAIL_PASS || '',
   CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME || '',

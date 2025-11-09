@@ -1,25 +1,26 @@
-import { Rocket } from '@/components/elements/Icons/Rocket'
-import { useScrollToDiv } from '@/hooks/ScrollToDivContext'
-import { Orbitron } from 'next/font/google'
+import { Rocket } from "@/components/elements/Icons/Rocket";
+import { useScrollToDiv } from "@/hooks/ScrollToDivContext";
+import { Orbitron } from "next/font/google";
 
-const orbitron = Orbitron({ subsets: ['latin'] })
+const orbitron = Orbitron({ subsets: ["latin"] });
 
 interface LogoProps {
-  showTextInMobile?: boolean
+  showTextInMobile?: boolean;
 }
 
 export function Logo({ showTextInMobile = false }: LogoProps) {
-  const { handleScrollToDiv } = useScrollToDiv()
+  const { handleScrollToDiv } = useScrollToDiv();
 
   return (
     <a
-      onClick={() => handleScrollToDiv('home')}
+      href="/"
+      onClick={() => handleScrollToDiv("home")}
       className="flex gap-1 md:gap-2"
     >
       <Rocket size="30" className="flex" />
       <div
         className={`${
-          showTextInMobile ? 'flex' : 'hidden'
+          showTextInMobile ? "flex" : "hidden"
         } md:flex flex-col justify-center`}
       >
         <span
@@ -32,5 +33,5 @@ export function Logo({ showTextInMobile = false }: LogoProps) {
         </span>
       </div>
     </a>
-  )
+  );
 }

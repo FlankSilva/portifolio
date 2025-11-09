@@ -5,5 +5,5 @@ interface BoxProps {
 }
 
 export function Box({ children }: BoxProps) {
-  return <div className="w-full max-w-[80%] ">{children}</div>;
+  return <div className="w-full max-w-[90%] lg:max-w-[80%] mx-auto">{children}</div>;
 }

@@ -3,15 +3,11 @@
 @tailwind utilities;
 
 body {
-  -wrbkit-font-smoothing: antialiased;
+  -webkit-font-smoothing: antialiased;
 }
 
 button, a {
   cursor: pointer;
-}
-
-div {
-  display: flex;
 }
 
 

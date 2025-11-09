@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import Link from 'next/link'
 
 import { useMenu } from '@/hooks/MenuContext'
 import { listmenu } from '@/mock'
@@ -27,9 +28,20 @@ export function Drawer() {
       } `}
     >
       {listmenu.map((item) => {
+        if (item.id === 'project') {
+          return null
+        }
+
+        if (item.href) {
+          return (
+            <Link key={item.id} href={item.href}>
+              {item.icon}
+            </Link>
+          )
+        }
+
         return (
           <button
-            className={`${item.id === 'project' ? 'hidden' : ''}`}
             key={item.id}
             onClick={() => handleScrollToDiv(item.id)}
           >

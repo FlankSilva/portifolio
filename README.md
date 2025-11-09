@@ -168,12 +168,27 @@ O formulário de contato utiliza **React Hook Form** com **Zod** para validaçã
 
 ## 🌐 Variáveis de Ambiente
 
-As seguintes variáveis de ambiente são necessárias (definidas em `.env.local`):
+### 📧 Configuração de Email (Escolha uma opção)
 
-- `USER_EMAIL`: Email do remetente (Gmail)
-- `USER_EMAIL_PASS`: Senha de app do Gmail
+#### Opção 1: Resend (Recomendado - Gratuito: 100 emails/dia)
+```env
+RESEND_API_KEY=re_xxxxxxxxxxxxx
+RESEND_FROM_EMAIL=onboarding@resend.dev
+RESEND_TO_EMAIL=seu-email@gmail.com
+```
+**Como obter:** Crie uma conta em https://resend.com e gere uma API Key.
 
-**Importante**: As variáveis são validadas com Zod no arquivo `src/env/index.ts`.
+#### Opção 2: Gmail SMTP (Alternativa)
+```env
+USER_EMAIL=seu-email@gmail.com
+USER_EMAIL_PASS=sua-app-password-aqui
+```
+**Importante:** Use uma App Password do Gmail, não a senha normal. Veja como gerar: https://myaccount.google.com/apppasswords
+
+### 📚 Documentação Completa
+Para instruções detalhadas, consulte [EMAIL_SETUP.md](./EMAIL_SETUP.md)
+
+**Nota**: As variáveis são validadas com Zod no arquivo `src/env/index.ts`.
 
 ## 📦 Dependências Principais
 

@@ -1,16 +1,16 @@
-'use client'
+"use client";
 
-import { motion } from 'framer-motion'
+import { motion } from "framer-motion";
 
-import { useMenu } from '@/hooks/MenuContext'
-import { getAnimationVariants, slideDown } from '@/utils/animations'
-import { Box } from '../Box'
-import { HamburgerIcon } from '../Icons/HamburgerIcon'
-import { Logo } from '../Logo'
-import { Menu } from './Menu'
+import { useMenu } from "@/hooks/MenuContext";
+import { getAnimationVariants, slideDown } from "@/utils/animations";
+import { Box } from "../Box";
+import { HamburgerIcon } from "../Icons/HamburgerIcon";
+import { Logo } from "../Logo";
+import { Menu } from "./Menu";
 
 export function Header() {
-  const { handleSetOpenClose } = useMenu()
+  const { handleSetOpenClose } = useMenu();
 
   return (
     <motion.div
@@ -20,7 +20,7 @@ export function Header() {
       className="justify-center bg-black-950 shadow-boxBorderMenu fixed w-full z-50"
     >
       <Box>
-        <div className="justify-between w-full py-5 px-4 lg:px-0">
+        <div className="flex items-center justify-between w-full py-5 px-4 lg:px-0">
           <Logo />
           <Menu />
           <button
@@ -34,5 +34,5 @@ export function Header() {
         </div>
       </Box>
     </motion.div>
-  )
+  );
 }

@@ -35,13 +35,23 @@ export function Footer() {
               <div className="flex flex-col w-[180px] md:w-[220px]">
                 <span className="text-green-500 font-bold text-lg">MENU</span>
                 <ul>
-                  {listmenu.map((item) => (
-                    <li className="text-zinc-200" key={item.id}>
-                      <a onClick={() => handleScrollToDiv(item.id)}>
-                        {item.title}
-                      </a>
-                    </li>
-                  ))}
+                  {listmenu.map((item) => {
+                    if (item.href) {
+                      return (
+                        <li className="text-zinc-200" key={item.id}>
+                          <Link href={item.href}>{item.title}</Link>
+                        </li>
+                      )
+                    }
+
+                    return (
+                      <li className="text-zinc-200" key={item.id}>
+                        <a onClick={() => handleScrollToDiv(item.id)}>
+                          {item.title}
+                        </a>
+                      </li>
+                    )
+                  })}
                 </ul>
               </div>
               <div className="flex flex-col">
