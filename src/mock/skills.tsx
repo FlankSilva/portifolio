@@ -17,6 +17,11 @@ import {
   LaravelIcon,
   FirebaseIcon,
   SqliteIcon,
+  GitIcon,
+  LinuxIcon,
+  ESLintIcon,
+  MySQLIcon,
+  JestIcon,
 } from "@/components/elements/Icons/SoftSkills";
 
 interface SkillsProps {
@@ -112,7 +117,7 @@ export const skills = ({ size }: SkillsProps) => [
   {
     title: "MYSQL",
     description: "Modelagem, joins, procedures, views",
-    icon: <GenericIcon size={size} name="MySQL" />,
+    icon: <MySQLIcon size={size} />,
     url: "https://www.mysql.com",
   },
   {
@@ -124,7 +129,7 @@ export const skills = ({ size }: SkillsProps) => [
   {
     title: "SQLITE",
     description: "Uso local em apps mobile",
-    icon: <SqliteIcon size={size} name="SQLite" />,
+    icon: <SqliteIcon size={size} />,
     url: "https://www.sqlite.org",
   },
   // 🚀 DevOps e Infraestrutura
@@ -137,51 +142,26 @@ export const skills = ({ size }: SkillsProps) => [
   {
     title: "GIT / GITHUB",
     description: "Versionamento, branches, PRs e code review",
-    icon: <GenericIcon size={size} name="Git" />,
+    icon: <GitIcon size={size} />,
     url: "https://github.com",
-  },
-  {
-    title: "CI/CD",
-    description: "Deploys automatizados (Vercel, Netlify, GitHub Actions)",
-    icon: <GenericIcon size={size} name="CI/CD" />,
-    url: "https://github.com/features/actions",
-  },
-  {
-    title: "VERCEL",
-    description: "Deploy e versionamento de apps web/mobile",
-    icon: <GenericIcon size={size} name="Vercel" />,
-    url: "https://vercel.com",
   },
   {
     title: "LINUX / CLI",
     description: "Navegação, permissões, scripts de automação simples",
-    icon: <GenericIcon size={size} name="Linux" />,
+    icon: <LinuxIcon size={size} />,
     url: "https://www.linux.org",
-  },
-  // 🧱 Arquitetura e Boas Práticas
-  {
-    title: "CLEAN CODE",
-    description: "Código limpo, modular, testável",
-    icon: <GenericIcon size={size} name="Clean" />,
-    url: "https://github.com/ryanmcdermott/clean-code-javascript",
-  },
-  {
-    title: "PERFORMANCE",
-    description: "Lazy loading, memoization, otimização de assets",
-    icon: <GenericIcon size={size} name="Perf" />,
-    url: "https://web.dev/performance",
   },
   // 🧪 Testes e Qualidade
   {
     title: "JEST",
     description: "Testes automatizados (React Native / Jest / Testing Library)",
-    icon: <GenericIcon size={size} name="Jest" />,
+    icon: <JestIcon size={size} />,
     url: "https://jestjs.io",
   },
   {
     title: "ESLINT",
     description: "Linting & Formatação (ESLint, Prettier)",
-    icon: <GenericIcon size={size} name="ESLint" />,
+    icon: <ESLintIcon size={size} />,
     url: "https://eslint.org",
   },
   // Ferramentas

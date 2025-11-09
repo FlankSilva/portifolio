@@ -16,3 +16,8 @@ export { ExpressIcon } from "./ExpressIcon";
 export { LaravelIcon } from "./LaravelIcon";
 export { FirebaseIcon } from "./FirebaseIcon";
 export { SqliteIcon } from "./SqliteIcon";
+export { GitIcon } from "./GitIcon";
+export { LinuxIcon } from "./LinuxIcon";
+export { ESLintIcon } from "./ESLintIcon";
+export { MySQLIcon } from "./MySQLIcon";
+export { JestIcon } from "./JestIcon";
