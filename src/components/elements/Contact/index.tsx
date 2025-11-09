@@ -45,7 +45,7 @@ export function Contact() {
         })
     } catch (error) {
       setIsLoading(false)
-      console.log(error)
+      console.error('Erro ao enviar formulário:', error)
     }
   }
 

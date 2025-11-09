@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import db from '@/lib/db'
+import { queryAll, queryOne, query } from '@/lib/db'
 import { isAuthenticated } from '@/utils/auth'
 import { z } from 'zod'
 
@@ -36,7 +36,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Não autorizado' }, { status: 401 })
     }
 
-    const projects = db.prepare('SELECT * FROM projects ORDER BY display_order ASC, id ASC').all()
+    const projects = await queryAll('SELECT * FROM projects ORDER BY display_order ASC, id ASC')
 
     return NextResponse.json({ projects })
   } catch (error) {
@@ -58,16 +58,15 @@ export async function POST(request: NextRequest) {
     const { name, description, stack, link, repoName, repo, imageUrl } = projectSchema.parse(body)
 
     // Pegar o maior display_order e adicionar 1
-    const maxOrder = db.prepare('SELECT MAX(display_order) as max_order FROM projects').get() as { max_order: number | null }
-    const newOrder = (maxOrder.max_order ?? 0) + 1
+    const maxOrder = await queryOne('SELECT MAX(display_order) as max_order FROM projects') as { max_order: number | null }
+    const newOrder = (maxOrder?.max_order ?? 0) + 1
 
-    const result = db
-      .prepare(
-        'INSERT INTO projects (name, description, stack, link, repo_name, repo, image_url, display_order) VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
-      )
-      .run(name, description, stack, link, repoName || '', repo || '', imageUrl || null, newOrder)
+    const result = await query(
+      'INSERT INTO projects (name, description, stack, link, repo_name, repo, image_url, display_order) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *',
+      [name, description, stack, link, repoName || '', repo || '', imageUrl || null, newOrder]
+    )
 
-    const project = db.prepare('SELECT * FROM projects WHERE id = ?').get(result.lastInsertRowid)
+    const project = result.rows[0]
 
     return NextResponse.json({ project, message: 'Projeto criado com sucesso' }, { status: 201 })
   } catch (error) {
@@ -79,4 +78,3 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Erro interno do servidor' }, { status: 500 })
   }
 }
-

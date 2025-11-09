@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
-import db from '@/lib/db'
+import { queryOne, query } from '@/lib/db'
 import { isAuthenticated } from '@/utils/auth'
 import { z } from 'zod'
+import { deleteImage } from '@/utils/cloudinary'
 
 const projectSchema = z.object({
   name: z.string().min(1, 'Nome é obrigatório'),
@@ -34,7 +35,7 @@ export async function GET(
 ) {
   try {
     const { id } = await params
-    const project = db.prepare('SELECT * FROM projects WHERE id = ?').get(Number(id))
+    const project = await queryOne('SELECT * FROM projects WHERE id = $1', [Number(id)])
 
     if (!project) {
       return NextResponse.json({ error: 'Projeto não encontrado' }, { status: 404 })
@@ -64,18 +65,28 @@ export async function PUT(
     const { name, description, stack, link, repoName, repo, imageUrl } = projectSchema.parse(body)
 
     // Verificar se projeto existe
-    const existingProject = db.prepare('SELECT * FROM projects WHERE id = ?').get(Number(id))
+    const existingProject = await queryOne('SELECT * FROM projects WHERE id = $1', [Number(id)])
 
     if (!existingProject) {
       return NextResponse.json({ error: 'Projeto não encontrado' }, { status: 404 })
     }
 
-    // Atualizar projeto
-    db.prepare(
-      'UPDATE projects SET name = ?, description = ?, stack = ?, link = ?, repo_name = ?, repo = ?, image_url = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?'
-    ).run(name, description, stack, link, repoName || '', repo || '', imageUrl || null, Number(id))
+    // Se há uma nova imagem e a antiga existe, deletar a antiga do Cloudinary
+    if (imageUrl && existingProject.image_url && imageUrl !== existingProject.image_url) {
+      try {
+        await deleteImage(existingProject.image_url)
+      } catch (error) {
+        console.error('Erro ao deletar imagem antiga:', error)
+      }
+    }
 
-    const project = db.prepare('SELECT * FROM projects WHERE id = ?').get(Number(id))
+    // Atualizar projeto
+    const result = await query(
+      'UPDATE projects SET name = $1, description = $2, stack = $3, link = $4, repo_name = $5, repo = $6, image_url = $7, updated_at = CURRENT_TIMESTAMP WHERE id = $8 RETURNING *',
+      [name, description, stack, link, repoName || '', repo || '', imageUrl || null, Number(id)]
+    )
+
+    const project = result.rows[0]
 
     return NextResponse.json({ project, message: 'Projeto atualizado com sucesso' })
   } catch (error) {
@@ -103,7 +114,7 @@ export async function DELETE(
     const { id } = await params
 
     // Verificar se projeto existe
-    const project = db.prepare('SELECT * FROM projects WHERE id = ?').get(Number(id)) as
+    const project = await queryOne('SELECT * FROM projects WHERE id = $1', [Number(id)]) as
       | { image_url: string | null }
       | undefined
 
@@ -111,8 +122,17 @@ export async function DELETE(
       return NextResponse.json({ error: 'Projeto não encontrado' }, { status: 404 })
     }
 
+    // Deletar imagem do Cloudinary se existir
+    if (project.image_url) {
+      try {
+        await deleteImage(project.image_url)
+      } catch (error) {
+        console.error('Erro ao deletar imagem do Cloudinary:', error)
+      }
+    }
+
     // Deletar projeto
-    db.prepare('DELETE FROM projects WHERE id = ?').run(Number(id))
+    await query('DELETE FROM projects WHERE id = $1', [Number(id)])
 
     return NextResponse.json({ message: 'Projeto deletado com sucesso' })
   } catch (error) {
@@ -120,4 +140,3 @@ export async function DELETE(
     return NextResponse.json({ error: 'Erro interno do servidor' }, { status: 500 })
   }
 }
-

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import db from '@/lib/db'
+import { queryOne } from '@/lib/db'
 import { verifyPassword, setSessionCookie } from '@/utils/auth'
 import { z } from 'zod'
 
@@ -14,14 +14,14 @@ export async function POST(request: NextRequest) {
     const { username, password } = loginSchema.parse(body)
 
     // Buscar usuário no banco
-    const user = db.prepare('SELECT * FROM users WHERE username = ?').get(username) as
+    const user = await queryOne('SELECT * FROM users WHERE username = $1', [username]) as
       | {
           id: number
           username: string
           password: string
           created_at: string
         }
-      | undefined
+      | null
 
     if (!user) {
       return NextResponse.json({ error: 'Credenciais inválidas' }, { status: 401 })
@@ -35,9 +35,8 @@ export async function POST(request: NextRequest) {
     }
 
     // Criar sessão
-    await setSessionCookie()
-
-    return NextResponse.json({ success: true, message: 'Login realizado com sucesso' })
+    const response = NextResponse.json({ success: true, message: 'Login realizado com sucesso' })
+    return await setSessionCookie(response)
   } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: error.errors[0].message }, { status: 400 })
@@ -47,4 +46,3 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Erro interno do servidor' }, { status: 500 })
   }
 }
-

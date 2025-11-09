@@ -1,4 +1,5 @@
 import { cookies } from 'next/headers'
+import { NextResponse } from 'next/server'
 import bcrypt from 'bcryptjs'
 
 const SESSION_COOKIE_NAME = 'admin_session'
@@ -15,15 +16,19 @@ export async function verifyPassword(
   return bcrypt.compare(password, hashedPassword)
 }
 
-export async function setSessionCookie(): Promise<void> {
+export async function setSessionCookie(response?: NextResponse): Promise<NextResponse> {
   const cookieStore = await cookies()
-  cookieStore.set(SESSION_COOKIE_NAME, 'authenticated', {
+  const res = response || NextResponse.next()
+  
+  res.cookies.set(SESSION_COOKIE_NAME, 'authenticated', {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'lax',
     maxAge: 60 * 60 * 24 * 7, // 7 dias
     path: '/',
   })
+  
+  return res
 }
 
 export async function clearSessionCookie(): Promise<void> {

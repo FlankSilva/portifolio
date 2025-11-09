@@ -23,10 +23,9 @@ export async function POST(req: Request) {
       `,
     })
 
-    // return new Response('Hello, Flank')
     return NextResponse.json({})
   } catch (error) {
-    console.log(error)
+    console.error('Erro ao enviar email:', error)
+    return NextResponse.json({ error: 'Erro ao enviar email' }, { status: 500 })
   }
-  return new Response('Hello, Next.js!')
 }

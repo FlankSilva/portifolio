@@ -38,6 +38,13 @@ export function HomePage() {
     const fetchProjects = async () => {
       try {
         const response = await fetch('/api/projects/public')
+        
+        if (!response.ok) {
+          console.error('Erro na resposta da API:', response.status, response.statusText)
+          setProjectsLoading(false)
+          return
+        }
+
         const data = await response.json()
 
         if (data.projects && data.projects.length > 0) {
@@ -53,6 +60,8 @@ export function HomePage() {
             image: project.image,
           }))
           setDataProjects(formattedProjects)
+        } else {
+          console.warn('Nenhum projeto encontrado na API')
         }
       } catch (error) {
         console.error('Erro ao carregar projetos:', error)

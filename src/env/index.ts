@@ -7,6 +7,7 @@ const envSchema = z.object({
   CLOUDINARY_CLOUD_NAME: z.string().optional(),
   CLOUDINARY_API_KEY: z.string().optional(),
   CLOUDINARY_API_SECRET: z.string().optional(),
+  DATABASE_URL: z.string().optional(),
   DATABASE_PATH: z.string().optional(),
   SESSION_SECRET: z.string().optional(),
 })
@@ -28,6 +29,7 @@ export const env = _env.success ? _env.data : {
   CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME || '',
   CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY || '',
   CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET || '',
+  DATABASE_URL: process.env.DATABASE_URL || '',
   DATABASE_PATH: process.env.DATABASE_PATH || '',
   SESSION_SECRET: process.env.SESSION_SECRET || '',
 }

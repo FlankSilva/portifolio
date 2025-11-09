@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import db from '@/lib/db'
+import { queryOne, query } from '@/lib/db'
 import { isAuthenticated } from '@/utils/auth'
 import { z } from 'zod'
 
@@ -21,10 +21,10 @@ export async function POST(request: NextRequest) {
     const { projectId, direction } = reorderSchema.parse(body)
 
     // Buscar projeto atual
-    const project = db.prepare('SELECT * FROM projects WHERE id = ?').get(projectId) as {
+    const project = await queryOne('SELECT * FROM projects WHERE id = $1', [projectId]) as {
       id: number
       display_order: number
-    } | undefined
+    } | null
 
     if (!project) {
       return NextResponse.json({ error: 'Projeto não encontrado' }, { status: 404 })
@@ -34,25 +34,27 @@ export async function POST(request: NextRequest) {
 
     if (direction === 'up') {
       // Mover para cima: trocar com o projeto que tem display_order menor
-      const previousProject = db
-        .prepare('SELECT * FROM projects WHERE display_order < ? ORDER BY display_order DESC LIMIT 1')
-        .get(currentOrder) as { id: number; display_order: number } | undefined
+      const previousProject = await queryOne(
+        'SELECT * FROM projects WHERE display_order < $1 ORDER BY display_order DESC LIMIT 1',
+        [currentOrder]
+      ) as { id: number; display_order: number } | null
 
       if (previousProject) {
         // Trocar as ordens
-        db.prepare('UPDATE projects SET display_order = ? WHERE id = ?').run(previousProject.display_order, projectId)
-        db.prepare('UPDATE projects SET display_order = ? WHERE id = ?').run(currentOrder, previousProject.id)
+        await query('UPDATE projects SET display_order = $1 WHERE id = $2', [previousProject.display_order, projectId])
+        await query('UPDATE projects SET display_order = $1 WHERE id = $2', [currentOrder, previousProject.id])
       }
     } else {
       // Mover para baixo: trocar com o projeto que tem display_order maior
-      const nextProject = db
-        .prepare('SELECT * FROM projects WHERE display_order > ? ORDER BY display_order ASC LIMIT 1')
-        .get(currentOrder) as { id: number; display_order: number } | undefined
+      const nextProject = await queryOne(
+        'SELECT * FROM projects WHERE display_order > $1 ORDER BY display_order ASC LIMIT 1',
+        [currentOrder]
+      ) as { id: number; display_order: number } | null
 
       if (nextProject) {
         // Trocar as ordens
-        db.prepare('UPDATE projects SET display_order = ? WHERE id = ?').run(nextProject.display_order, projectId)
-        db.prepare('UPDATE projects SET display_order = ? WHERE id = ?').run(currentOrder, nextProject.id)
+        await query('UPDATE projects SET display_order = $1 WHERE id = $2', [nextProject.display_order, projectId])
+        await query('UPDATE projects SET display_order = $1 WHERE id = $2', [currentOrder, nextProject.id])
       }
     }
 
@@ -66,4 +68,3 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Erro interno do servidor' }, { status: 500 })
   }
 }
-

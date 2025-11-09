@@ -38,3 +38,6 @@ next-env.d.ts
 # database
 src/database/*.db
 src/database/*.db-journal
+
+# Docker
+.env.local
