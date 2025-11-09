@@ -43,6 +43,9 @@ export function Projects({
               project={dataProjects[indexProject]}
               pauseInterval={pauseInterval}
               resumeInterval={resumeInterval}
+              setIndexProject={setIndexProject}
+              indexProject={indexProject}
+              dataProjects={dataProjects}
             />
             <StepsCard
               data={dataProjects}

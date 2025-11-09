@@ -29,7 +29,34 @@ interface SkillsProps {
 }
 
 export const skills = ({ size }: SkillsProps) => [
-  // ⚙️ Frontend (Web & Mobile)
+  // 🔥 Fundamentos Essenciais
+  {
+    title: "JAVASCRIPT",
+    description: "ES6+, async/await, Promises, padrões modernos",
+    icon: <JavaScriptIcon size={size} />,
+    url: "https://developer.mozilla.org/pt-BR/docs/Web/JavaScript",
+  },
+  {
+    title: "TYPESCRIPT",
+    description:
+      "Tipagem estática, interfaces, generics, integração com React/Node",
+    icon: <TypeScriptIcon size={size} />,
+    url: "https://www.typescriptlang.org",
+  },
+  {
+    title: "HTML5",
+    description: "Semântica, acessibilidade e boas práticas",
+    icon: <HTMLIcon size={size} />,
+    url: "https://developer.mozilla.org/pt-BR/docs/Web/HTML",
+  },
+  {
+    title: "CSS3",
+    description:
+      "Estilização moderna, animações, flexbox, grid, responsividade",
+    icon: <CssIcon size={size} />,
+    url: "https://developer.mozilla.org/pt-BR/docs/Web/CSS",
+  },
+  // ⚛️ Frameworks Principais
   {
     title: "REACT",
     description: "Hooks, Context API, componentização, reuso, design system",
@@ -50,13 +77,6 @@ export const skills = ({ size }: SkillsProps) => [
     url: "https://reactnative.dev",
   },
   {
-    title: "TYPESCRIPT",
-    description:
-      "Tipagem estática, interfaces, generics, integração com React/Node",
-    icon: <TypeScriptIcon size={size} />,
-    url: "https://www.typescriptlang.org",
-  },
-  {
     title: "TAILWIND CSS",
     description:
       "Estilização utilitária, componentização, design system, dark mode",
@@ -68,25 +88,6 @@ export const skills = ({ size }: SkillsProps) => [
     description: "Modularização, variáveis, mixins, organização de estilos",
     icon: <SassIcon size={size} />,
     url: "https://sass-lang.com",
-  },
-  {
-    title: "CSS3",
-    description:
-      "Estilização moderna, animações, flexbox, grid, responsividade",
-    icon: <CssIcon size={size} />,
-    url: "https://developer.mozilla.org/pt-BR/docs/Web/CSS",
-  },
-  {
-    title: "HTML5",
-    description: "Semântica, acessibilidade e boas práticas",
-    icon: <HTMLIcon size={size} />,
-    url: "https://developer.mozilla.org/pt-BR/docs/Web/HTML",
-  },
-  {
-    title: "JAVASCRIPT",
-    description: "ES6+, async/await, Promises, padrões modernos",
-    icon: <JavaScriptIcon size={size} />,
-    url: "https://developer.mozilla.org/pt-BR/docs/Web/JavaScript",
   },
   // 🧩 Backend & APIs
   {
@@ -115,16 +116,16 @@ export const skills = ({ size }: SkillsProps) => [
   },
   // 🗄️ Banco de Dados
   {
-    title: "MYSQL",
-    description: "Modelagem, joins, procedures, views",
-    icon: <MySQLIcon size={size} />,
-    url: "https://www.mysql.com",
-  },
-  {
     title: "POSTGRESQL",
     description: "Consultas otimizadas e relacionamentos",
     icon: <PostgresIcon size={size} />,
     url: "https://www.postgresql.org",
+  },
+  {
+    title: "MYSQL",
+    description: "Modelagem, joins, procedures, views",
+    icon: <MySQLIcon size={size} />,
+    url: "https://www.mysql.com",
   },
   {
     title: "SQLITE",
@@ -134,16 +135,16 @@ export const skills = ({ size }: SkillsProps) => [
   },
   // 🚀 DevOps e Infraestrutura
   {
-    title: "DOCKER",
-    description: "Containers, docker-compose, deploy de aplicações full stack",
-    icon: <DockerIcon size={size} />,
-    url: "https://www.docker.com",
-  },
-  {
     title: "GIT / GITHUB",
     description: "Versionamento, branches, PRs e code review",
     icon: <GitIcon size={size} />,
     url: "https://github.com",
+  },
+  {
+    title: "DOCKER",
+    description: "Containers, docker-compose, deploy de aplicações full stack",
+    icon: <DockerIcon size={size} />,
+    url: "https://www.docker.com",
   },
   {
     title: "LINUX / CLI",
@@ -164,7 +165,7 @@ export const skills = ({ size }: SkillsProps) => [
     icon: <ESLintIcon size={size} />,
     url: "https://eslint.org",
   },
-  // Ferramentas
+  // 🔧 Ferramentas
   {
     title: "YARN",
     description: "Gerenciamento de dependências e scripts de build",
