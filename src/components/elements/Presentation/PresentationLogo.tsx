@@ -9,6 +9,7 @@ import { createDelayedAnimation, fadeIn, getAnimationVariants, hoverScale } from
 import { GitHubIcon } from '../Icons/GitHubIcon'
 import { LinkedInIcon } from '../Icons/LinkedInIcon'
 import { YoutubeIcon } from '../Icons/YoutubeIcon'
+import { WhatsappIcon } from '../Icons/WhatsappIcon'
 import Link from 'next/link'
 
 const orbitron = Orbitron({ subsets: ['latin'] })
@@ -92,6 +93,21 @@ export function PresentationLogo() {
             aria-label="Visitar canal do YouTube de Flank Silva"
           >
             <YoutubeIcon size={21} />
+          </Link>
+        </motion.div>
+        <motion.div
+          whileHover="hover"
+          variants={getAnimationVariants(hoverScale)}
+          className="bg-[#25D366] rounded w-8 h-8 flex items-center justify-center"
+        >
+          <Link
+            className="w-full h-full flex items-center justify-center"
+            href={'https://api.whatsapp.com/send?phone=5519992360973'}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Entrar em contato via WhatsApp com Flank Silva"
+          >
+            <WhatsappIcon size={21} fill="#fff" />
           </Link>
         </motion.div>
       </motion.div>
