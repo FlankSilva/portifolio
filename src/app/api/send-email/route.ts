@@ -38,11 +38,11 @@ export async function POST(req: Request) {
 
     // Verificar qual serviço está configurado e usar
     // Prioridade: Gmail SMTP se configurado, senão Resend
-    const useGmail = transporter && mailOptions.from && mailOptions.to
-    const useResend = resendConfig.isConfigured && resend
+    const useGmail = transporter !== null && mailOptions.from && mailOptions.to
+    const useResend = resendConfig.isConfigured && resend !== null
 
     // Tentar Gmail SMTP primeiro (se configurado)
-    if (useGmail) {
+    if (useGmail && transporter) {
       try {
         await transporter.sendMail({
           ...mailOptions,
@@ -65,7 +65,7 @@ export async function POST(req: Request) {
     }
 
     // Tentar Resend (se Gmail não estiver configurado ou falhou)
-    if (useResend) {
+    if (useResend && resend) {
       try {
         await resend.emails.send({
           from: resendConfig.from,
