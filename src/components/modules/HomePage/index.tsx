@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 
 import { About } from '@/components/elements/About'
 import { Box } from '@/components/elements/Box'
@@ -21,9 +21,20 @@ export function HomePage() {
   const [selectItemDataProject, setSelectItemDataProject] = useState(0)
   const [isPaused, setIsPaused] = useState(false)
 
+  // Memoiza a lista de skills para evitar recálculos
+  const allSkills = useMemo(() => skills({ size: '100' }), [])
+
+  // Carrega as skills imediatamente no mount
+  useEffect(() => {
+    if (allSkills.length > 0) {
+      setSkillsList(allSkills)
+      setHiddenNextButton(true)
+    }
+  }, [allSkills])
+
   useEffect(() => {
     const qtdProject = data.length
-    let interval: any
+    let interval: NodeJS.Timeout | undefined
 
     if (!isPaused) {
       interval = setInterval(() => {
@@ -37,44 +48,36 @@ export function HomePage() {
     }
 
     return () => {
-      clearInterval(interval)
+      if (interval) {
+        clearInterval(interval)
+      }
     }
-  }, [selectItemDataProject, isPaused])
+  }, [isPaused])
 
-  const handleSetIndexProject = (index: number) => {
+  const handleSetIndexProject = useCallback((index: number) => {
     setSelectItemDataProject(index - 1)
-  }
-
-  const pauseInterval = () => {
-    setIsPaused(true)
-  }
-
-  const resumeInterval = () => {
-    setIsPaused(false)
-  }
-
-  useEffect(() => {
-    const allSkills = skills({ size: '100' })
-    setSkillsList(allSkills)
-    setHiddenNextButton(true)
   }, [])
 
-  const handleNextSkills = () => {
-    const qtdSkills = skills({ size: '100' }).length
+  const pauseInterval = useCallback(() => {
+    setIsPaused(true)
+  }, [])
+
+  const resumeInterval = useCallback(() => {
+    setIsPaused(false)
+  }, [])
+
+  const handleNextSkills = useCallback(() => {
+    const qtdSkills = allSkills.length
     const qtdActiveSkills = skillsList.length
     const qtdNext = 4
 
     if (qtdSkills > qtdActiveSkills) {
-      const newListSkills = skills({ size: '100' }).slice(
-        0,
-        qtdActiveSkills + qtdNext,
-      )
-
+      const newListSkills = allSkills.slice(0, qtdActiveSkills + qtdNext)
       setSkillsList(newListSkills)
     } else {
       setHiddenNextButton(true)
     }
-  }
+  }, [allSkills, skillsList.length])
 
   return (
     <div id="home" className="bg-black-900 text-zinc-50 flex flex-col">

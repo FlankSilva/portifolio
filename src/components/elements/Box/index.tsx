@@ -1,9 +1,9 @@
-import { ReactNode } from 'react'
+import { ReactNode } from "react";
 
 interface BoxProps {
-  children: ReactNode
+  children: ReactNode;
 }
 
 export function Box({ children }: BoxProps) {
-  return <div className="w-full max-w-5xl ">{children}</div>
+  return <div className="w-full max-w-[80%] ">{children}</div>;
 }

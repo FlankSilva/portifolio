@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import { memo } from 'react'
 
 import { getAnimationVariants, hoverLift, hoverRotate } from '@/utils/animations'
 
@@ -12,7 +13,7 @@ export interface SkillProps {
   url?: string
 }
 
-export function CardSkill({ title, icon, url }: SkillProps) {
+function CardSkillComponent({ title, icon, url }: SkillProps) {
   const content = (
     <motion.div
       initial={{ opacity: 0, scale: 0.9 }}
@@ -50,3 +51,6 @@ export function CardSkill({ title, icon, url }: SkillProps) {
 
   return content
 }
+
+// Memoiza o componente para evitar re-renders desnecessários
+export const CardSkill = memo(CardSkillComponent)
